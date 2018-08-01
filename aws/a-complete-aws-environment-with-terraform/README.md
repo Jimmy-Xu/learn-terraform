@@ -1,6 +1,8 @@
 A COMPLETE AWS ENVIRONMENT WITH TERRAFORM
 --------------------------------------------
 
+This example will create everything you need from scratch: VPC, subnets, routes, security groups, an EC2 machine with MySQL installed inside a private network, and a webapp machine with Apache and its PHP module in a public subnet. The webapp machine reads a table in the database and shows the result.
+
 REF：
 - https://github.com/giuseppeborgese/a-complete-aws-environment-with-terraform
 - https://linuxacademy.com/howtoguides/posts/show/topic/13922-a-complete-aws-environment-with-terraform
@@ -1068,4 +1070,48 @@ aws_route53_record.database: Creation complete after 1m8s (ID: Z30DBUF6A5L1BA_my
 
 Apply complete! Resources: 18 added, 1 changed, 3 destroyed.
 
+```
+
+# view output
+
+```
+$ terraform refresh
+aws_vpc_dhcp_options.mydhcp: Refreshing state... (ID: dopt-bca2f1db)
+aws_vpc.terraformmain: Refreshing state... (ID: vpc-0b9bc36c)
+aws_eip.forNat: Refreshing state... (ID: eipalloc-cf0c16f5)
+data.aws_availability_zones.available: Refreshing state...
+aws_vpc_dhcp_options_association.dns_resolver: Refreshing state... (ID: dopt-bca2f1db-vpc-0b9bc36c)
+aws_route53_zone.main: Refreshing state... (ID: Z30DBUF6A5L1BA)
+aws_internet_gateway.gw: Refreshing state... (ID: igw-f5374d91)
+aws_network_acl.all: Refreshing state... (ID: acl-db1bd9bd)
+aws_subnet.PrivateAZA: Refreshing state... (ID: subnet-22929e45)
+aws_subnet.PublicAZA: Refreshing state... (ID: subnet-7d1d2134)
+aws_security_group.FrontEnd: Refreshing state... (ID: sg-49e85f31)
+aws_route_table.public: Refreshing state... (ID: rtb-e27dd184)
+aws_nat_gateway.PublicAZA: Refreshing state... (ID: nat-0d214fe9da1037fed)
+aws_instance.phpapp: Refreshing state... (ID: i-06df027deeb248b00)
+aws_security_group.Database: Refreshing state... (ID: sg-31eb5c49)
+aws_route_table_association.PublicAZA: Refreshing state... (ID: rtbassoc-7006da09)
+aws_route_table.private: Refreshing state... (ID: rtb-9679d5f0)
+aws_instance.database: Refreshing state... (ID: i-07e9d446754a74121)
+aws_route_table_association.PrivateAZA: Refreshing state... (ID: rtbassoc-670ad61e)
+aws_route53_record.database: Refreshing state... (ID: Z30DBUF6A5L1BA_mydatabase.linuxacademy.internal_A)
+
+Outputs:
+
+phpapp_ip = [
+    13.229.82.130
+]
+```
+
+```
+$ terraform output phpapp_ip
+13.229.82.130
+```
+
+# access
+
+```
+$ curl http://13.229.82.130/calldb.php
+the value is: hello from hyper
 ```

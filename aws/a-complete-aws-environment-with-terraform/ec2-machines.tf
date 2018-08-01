@@ -43,6 +43,6 @@ resource "aws_instance" "database" {
   /usr/bin/mysqladmin -u root password 'secret'
   mysql -u root -psecret -e "create user 'root'@'%' identified by 'secret';" mysql
   mysql -u root -psecret -e 'CREATE TABLE mytable (mycol varchar(255));' test
-  mysql -u root -psecret -e "INSERT INTO mytable (mycol) values ('linuxacademythebest') ;" test
+  mysql -u root -psecret -e "INSERT INTO mytable (mycol) values ('hello from hyper') ;" test
 HEREDOC
 }
