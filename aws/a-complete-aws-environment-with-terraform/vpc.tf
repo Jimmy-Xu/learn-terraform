@@ -3,6 +3,8 @@ provider "aws" {
   #secret_key = "${var.aws_secret_key}"
   shared_credentials_file = "${var.credentialsfile}"
   region     = "${var.region}"
+  profile = "${var.profile}"
+  
 }
 resource "aws_vpc" "terraformmain" {
     cidr_block = "${var.vpc-fullcidr}"

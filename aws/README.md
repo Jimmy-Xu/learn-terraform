@@ -25,12 +25,15 @@ $ brew install awscli
 
 ```
 //create a new iam user "ecs-test" with the following permission
+AmazonEC2FullAccess
 IAMFullAccess
 AmazonEC2ContainerRegistryFullAccess
 AmazonS3FullAccess
-AmazonEC2ReadOnlyAccess
+IAMUserChangePassword
 AmazonECS_FullAccess
 AmazonVPCFullAccess
+AmazonECSTaskExecutionRolePolicy
+AmazonRoute53FullAccess
 AWSCertificateManagerFullAccess
 
 //save the credentials

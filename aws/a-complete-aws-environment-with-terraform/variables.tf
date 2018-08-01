@@ -1,15 +1,19 @@
-variable "region" {
-  default = "us-east-2"
+variable "profile" {
+  default = "ecs-test"
 }
+variable "region" {
+  default = "ap-southeast-1"
+}
+
 variable "AmiLinux" {
   type = "map"
   default = {
-    us-east-1 = "ami-b73b63a0" # Virginia
-    us-west-2 = "ami-5ec1673e" # Oregon
-    eu-west-1 = "ami-9398d3e0" # Ireland
-    us-east-2 = "ami-ea87a78f" # Ohio
+    ap-southeast-1 = "ami-68097514" #Singapore
+    us-east-1 = "ami-97785bed" # Virginia
+    us-west-2 = "ami-f2d3638a" # Oregon
+    eu-west-1 = "ami-d834aba1" # Ireland
   }
-  description = "I add only 3 regions (Virginia, Oregon, Ireland) to show the map feature but you can add all the regions that you need"
+  description = "Amazon Linux AMI 2018.03. I add only 3 regions (Singapore, Virginia, Oregon, Ireland) to show the map feature but you can add all the regions that you need"
 }
 /*
 variable "aws_access_key" {
@@ -23,7 +27,7 @@ variable "aws_secret_key" {
 }
 */
 variable "credentialsfile" {
-  default = "/Users/giuseppe/.aws/credentials" #replace your home directory
+  default = "~/.aws/credentials" #replace your home directory
   description = "where your access and secret_key are stored, you create the file when you run the aws config"
 }
 
@@ -40,8 +44,8 @@ variable "Subnet-Private-AzA-CIDR" {
   description = "the cidr of the subnet"
 }
 variable "key_name" {
-  default = "demotmp"
-  description = "the ssh key to use in the EC2 machines"
+  default = "test-terraform"
+  description = "the keypair(ssh key) to use in the EC2 machines, please create it first in test region manually"
 }
 variable "DnsZoneName" {
   default = "linuxacademy.internal"
