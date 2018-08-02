@@ -7,6 +7,20 @@ REF：
 - https://github.com/giuseppeborgese/a-complete-aws-environment-with-terraform
 - https://linuxacademy.com/howtoguides/posts/show/topic/13922-a-complete-aws-environment-with-terraform
 
+<!-- TOC -->
+
+- [prepare](#prepare)
+- [graph](#graph)
+  - [diagram](#diagram)
+  - [generate with graphviz](#generate-with-graphviz)
+- [interactive visualization](#interactive-visualization)
+- [plan](#plan)
+- [apply](#apply)
+- [view output](#view-output)
+- [access](#access)
+
+<!-- /TOC -->
+
 # prepare
 
 create a keypair with name "test-terraform"

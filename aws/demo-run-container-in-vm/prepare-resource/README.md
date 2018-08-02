@@ -5,13 +5,32 @@ Create required aws resources: vpc, subnet, routetable, acl, igw, sg.
 
 Set PROFILE and REGION in variables.tf first.
 
+<!-- TOC -->
+
+- [Usage](#usage)
+  - [init](#init)
+  - [plan](#plan)
+  - [apply](#apply)
+
+<!-- /TOC -->
+
 # Usage
+
+## init
 
 ```
 $ terraform init
+```
 
+## plan
+
+```
 $ terraform plan
+```
 
+## apply
+
+```
 $ terraform apply
 ➜  prepare-resource git:(master) time terraform apply
 data.aws_availability_zones.AZ_LIST: Refreshing state...

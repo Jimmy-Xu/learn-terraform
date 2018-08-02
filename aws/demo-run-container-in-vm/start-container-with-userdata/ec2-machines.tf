@@ -9,9 +9,10 @@ resource "aws_instance" "ContainerVM" {
         Name = "${var.DEMO_NAME}-ContainerVM"
   }
   user_data = <<HEREDOC
-  #!/bin/bash
-  yum update -y
-  docker run -d -P nginx
+#!/bin/bash
+yum update -y
+docker run -d -p 80:80 nginx
+
 HEREDOC
 }
 

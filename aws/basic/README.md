@@ -3,6 +3,15 @@ basic example for use terraform with aws provider
 
 Create a s3 bucket
 
+<!-- TOC -->
+
+- [prepare](#prepare)
+- [init workdir](#init-workdir)
+- [preview change](#preview-change)
+- [perform](#perform)
+
+<!-- /TOC -->
+
 # prepare
 
 a profile named "ecs_test" for awscli
