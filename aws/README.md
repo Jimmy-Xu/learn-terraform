@@ -3,6 +3,12 @@ Terraform learning
 
 # AWS
 
+## Summary
+
+- [basic example - create a s3 bucket](basic)
+- [full example - create a complete aws environment](a-complete-aws-environment-with-terraform)
+- [demo - run container in a vm](demo)
+
 ## Reference
 
 - https://www.terraform.io/docs/providers/aws
