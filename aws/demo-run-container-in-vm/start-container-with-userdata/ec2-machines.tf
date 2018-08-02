@@ -11,7 +11,7 @@ resource "aws_instance" "ContainerVM" {
   user_data = <<HEREDOC
   #!/bin/bash
   yum update -y
-
+  docker run -d -P nginx
 HEREDOC
 }
 

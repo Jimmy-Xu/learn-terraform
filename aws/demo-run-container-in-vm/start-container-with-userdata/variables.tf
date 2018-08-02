@@ -30,10 +30,6 @@ variable "DNS_ZONE_NAME" {
 }
 
 ########################################################################
-variable "VPC_ID" {
-  default = "vpc-xxxxx" //please set a existed vpc_id
-}
-
 variable "KP" {
   default = "test-terraform"
   description = "the keypair(ssh key) to use in the EC2 machines, please create it first in test region manually"
@@ -41,10 +37,10 @@ variable "KP" {
 variable "AMI" {
   type = "map"
   default = {
-    ap-southeast-1 = "ami-68097514" #Singapore
-    us-east-1 = "ami-97785bed" # Virginia
-    us-west-2 = "ami-f2d3638a" # Oregon
-    eu-west-1 = "ami-d834aba1" # Ireland
+    ap-southeast-1 = "ami-ff084815" #Singapore
+    ap-northeast-1 = "ami-e8f88905" #Tokyo
+    us-east-1 = "ami-ab6963d4" # Virginia
+    us-west-1 = "ami-3cea065f" # California
   }
-  description = "Amazon Linux AMI 2018.03. I add only 3 regions (Singapore, Virginia, Oregon, Ireland) to show the map feature but you can add all the regions that you need"
+  description = "CoreOS Container Linux on EC2 - HVM (https://coreos.com/os/docs/latest/booting-on-ec2.html)"
 }
