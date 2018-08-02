@@ -8,9 +8,21 @@ resource "aws_instance" "ContainerVM" {
   tags {
         Name = "${var.DEMO_NAME}-ContainerVM"
   }
+  #the userdata script will be executed as root; if the uesrdata changed, the old instance will be replaced by a new one when apply
   user_data = <<HEREDOC
 #!/bin/bash
-yum update -y
+
+## Enable docker remote API
+mkdir -p /run/systemd/system/docker.service.d
+echo -e "[Service]\nEnvironment=DOCKER_OPTS=\"-H tcp://0.0.0.0:2375\"" > /run/systemd/system/docker.service.d/remote.conf
+systemctl daemon-reload
+systemctl restart docker
+
+## Disable SSH Host Key Checking for user core
+echo -e "Host *\n    StrictHostKeyChecking no" > /home/core/.ssh/config
+chown core:core /home/core/.ssh/config
+
+## Start nginx container
 docker run -d -p 80:80 nginx
 
 HEREDOC
