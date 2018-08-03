@@ -16,9 +16,9 @@ Set VPC_ID and KP in variables.tf first.
     - [output](#output)
     - [change userdata](#change-userdata)
 - [Access](#access)
+    - [access remote docker from local](#access-remote-docker-from-local)
     - [access nginx container](#access-nginx-container)
     - [access EC2 Instance](#access-ec2-instance)
-    - [access remote docker from local](#access-remote-docker-from-local)
 - [Destroy](#destroy)
 
 <!-- /TOC -->
@@ -205,10 +205,25 @@ Destroy complete! Resources: 1 destroyed.
 
 # Access
 
+## access remote docker from local
+
+```
+//copy client cert to ~/.docker
+$ cp -rf cert/{ca.pem,client.pem,client-key.pem} ~/.docker
+
+//update /etc/hosts
+$ sudo sed -i .bak '/.*docker.example.io$/d' /etc/hosts; sudo sh -c "echo 13.229.184.239 docker.example.io >> /etc/hosts"
+
+//connect to remote docker daemon
+$ docker --tlsverify -H tcp://docker.example.io:5732 ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
+3f47ef370395        nginx               "nginx -g 'daemon of…"   4 minutes ago       Up 4 minutes        0.0.0.0:80->80/tcp   elegant_sammet
+```
+
 ## access nginx container
 
 ```
-$ curl -s http://13.250.28.135 | grep title
+$ curl -s http://docker.example.io | grep title
 <title>Welcome to nginx!</title>
 ```
 
@@ -218,12 +233,11 @@ $ curl -s http://13.250.28.135 | grep title
 ssh into EC2 Instance
 ```
 
-$ ssh -i ~/.ssh/test-terraform.pem -o "StrictHostKeyChecking=no" core@13.250.28.135
-Warning: Permanently added '13.250.28.135' (ECDSA) to the list of known hosts.
-Last login: Fri Aug  3 04:13:03 UTC 2018 from 123.122.16.99 on pts/0
-Container Linux by CoreOS stable (1800.5.0)
-
-core@ip-172-28-0-174 ~ $ docker ps
+$ ssh -i ~/.ssh/test-terraform.pem -o "StrictHostKeyChecking=no" core@docker.example.io
+Warning: Permanently added 'docker.example.io,13.229.184.239' (ECDSA) to the list of known hosts.
+Last login: Fri Aug  3 16:46:50 UTC 2018 from 111.192.173.46 on pts/0Container Linux by CoreOS stable (1800.5.0)
+core@ip-172-28-0-186 ~ $
+core@ip-172-28-0-186 ~ $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                NAMES
 13140671ffa8        nginx               "nginx -g 'daemon of…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp   gallant_beaver
 ```
@@ -231,18 +245,11 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 execute command in EC2 Instance via ssh
 ```
-$ ssh -i ~/.ssh/test-terraform.pem -o "StrictHostKeyChecking=no" core@13.250.28.135 "docker ps"
+$ ssh -i ~/.ssh/test-terraform.pem -o "StrictHostKeyChecking=no" core@docker.example.io "docker ps"
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
 13140671ffa8        nginx               "nginx -g 'daemon of…"   4 minutes ago       Up 4 minutes        0.0.0.0:80->80/tcp   gallant_beaver
 ```
 
-## access remote docker from local
-
-```
-$ docker -H tcp://13.250.28.135:2375 ps -a
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
-3f47ef370395        nginx               "nginx -g 'daemon of…"   4 minutes ago       Up 4 minutes        0.0.0.0:80->80/tcp   elegant_sammet
-```
 
 
 # Destroy

@@ -4,26 +4,30 @@ resource "aws_security_group" "SG" {
         Name = "${var.DEMO_NAME}-SG"
   }
   description = "allow http, ssh and docker"
-  vpc_id = "${aws_vpc.VPC.id}"
+  vpc_id = "${data.aws_vpc.VPC.id}"
 
+  #nginx port
   ingress {
         from_port = 80
         to_port = 80
         protocol = "TCP"
         cidr_blocks = ["0.0.0.0/0"]
   }
+  #docker dynamic port range
   ingress {
-        from_port = 8080
-        to_port = 8080
+        from_port = 49000
+        to_port = 49900
         protocol = "TCP"
         cidr_blocks = ["0.0.0.0/0"]
   }
+  #docker daemon port
   ingress {
-        from_port = 2375
-        to_port = 2375
+        from_port = 5732
+        to_port = 5732
         protocol = "TCP"
         cidr_blocks = ["0.0.0.0/0"]
   }
+  #sshd port
   ingress {
     from_port   = "22"
     to_port     = "22"

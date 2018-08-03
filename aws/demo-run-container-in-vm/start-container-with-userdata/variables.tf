@@ -25,7 +25,7 @@ variable "CREDENTIALS_FILE" {
   description = "where your access and secret_key are stored, you create the file when you run the aws config"
 }
 variable "DNS_ZONE_NAME" {
-  default = "hyper.internal"
+  default = "example.io"
   description = "the internal dns name"
 }
 

@@ -26,7 +26,7 @@ variable "CREDENTIALS_FILE" {
 }
 
 variable "DNS_ZONE_NAME" {
-  default = "hyper.internal"
+  default = "example.io"
   description = "the internal dns name"
 }
 

@@ -5,6 +5,9 @@ Create required aws resources: vpc, subnet, routetable, acl, igw, sg.
 
 Set PROFILE and REGION in variables.tf first.
 
+Run `openssl genrsa -out private_key.pem 4096` to generate private_key.pem
+
+
 <!-- TOC -->
 
 - [Usage](#usage)
@@ -78,7 +81,7 @@ Terraform will perform the following actions:
       id:                                         <computed>
       comment:                                    "demo-run-container-in-vm-R53Zone"
       force_destroy:                              "false"
-      name:                                       "hyper.internal"
+      name:                                       "example.io"
       name_servers.#:                             <computed>
       vpc_id:                                     "${aws_vpc.VPC.id}"
       vpc_region:                                 <computed>
@@ -198,7 +201,7 @@ Terraform will perform the following actions:
 
   + aws_vpc_dhcp_options.DHCP
       id:                                         <computed>
-      domain_name:                                "hyper.internal"
+      domain_name:                                "example.io"
       domain_name_servers.#:                      "1"
       domain_name_servers.0:                      "AmazonProvidedDNS"
       tags.%:                                     "1"
@@ -219,7 +222,7 @@ Do you want to perform these actions?
   Enter a value: yes
 
 aws_vpc_dhcp_options.DHCP: Creating...
-  domain_name:           "" => "hyper.internal"
+  domain_name:           "" => "example.io"
   domain_name_servers.#: "" => "1"
   domain_name_servers.0: "" => "AmazonProvidedDNS"
   tags.%:                "" => "1"
@@ -256,7 +259,7 @@ aws_vpc_dhcp_options_association.DNS_RESOLVER: Creating...
 aws_route53_zone.R53Zone: Creating...
   comment:        "" => "demo-run-container-in-vm-R53Zone"
   force_destroy:  "" => "false"
-  name:           "" => "hyper.internal"
+  name:           "" => "example.io"
   name_servers.#: "" => "<computed>"
   vpc_id:         "" => "vpc-b41843d3"
   vpc_region:     "" => "<computed>"

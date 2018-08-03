@@ -1,5 +1,6 @@
+################################
 # existed resource
-
+################################
 data "aws_vpc" "VPC" {
   filter {
     name = "tag:Name"
@@ -21,12 +22,17 @@ data "aws_subnet" "PUBLIC_SUBNET" {
     vpc_id = "${data.aws_vpc.VPC.id}"
 }
 
-# get sg
-data "aws_security_group" "SG" {
-  filter {
-    name   = "tag:Name"
-    values = ["${var.DEMO_NAME}-SG"]
-  }
-  vpc_id = "${data.aws_vpc.VPC.id}"
+################################
+# cert file for docker daemon
+################################
+data "template_file" "CERT_CA" {
+  template = "${file("cert/ca.pem")}"
 }
 
+data "template_file" "CERT_SERVER" {
+  template = "${file("cert/server.pem")}"
+}
+
+data "template_file" "CERT_SERVER_KEY" {
+  template = "${file("cert/server-key.pem")}"
+}
