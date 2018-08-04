@@ -1,2 +1,94 @@
 #!/usr/bin/env bash
-echo -e "\033[36mTODO\033[39m: Implement this command"
+
+# 用户自定义变量
+BASE_NAME="${0##*/}"
+IS_HELP="false"
+IS_DEBUG="false"
+CLOUD_TYPE="aws"
+PROJECT_NAME=""
+
+# 自定义函数
+# 用法
+function usage()
+{
+    echo "Usage: ${BASE_NAME} [--debug] [-h|--help] [-t|--type aws,gcp,azure]"    
+    exit 1
+}
+# 初始化
+function init()
+{
+    #gnu-getopt required for macOSX: brew install gnu-getopt && brew link --force gnu-getopt
+    ARGS="`getopt -u -o "d:h" -l "type:,help,debug" -- "$@"`"
+    [ $? -ne 0 ] && usage
+    set -- ${ARGS}
+
+    while [ true ] ; do
+        case $1 in
+            --debug)
+                IS_DEBUG="true"
+                ;;
+            -h|--help)
+                IS_HELP="true"
+                ;;
+            -t|--type)
+                CLOUD_TYPE=$2
+                shift
+                ;;
+            --)
+                shift
+                break
+                ;;
+            *)
+                usage
+                ;;
+        esac
+        shift
+    done
+
+    [ "${IS_HELP}" == "true" ] && usage
+    [ "${IS_DEBUG}" == "true" ] && set -x
+
+    PROJECT_NAME=$1
+
+    return
+}
+
+function fn_create_aws()
+{
+    WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../../prepare-resource && pwd )"
+    LOG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../log && pwd )"
+
+    cd $WORK_DIR
+    echo "Start to create project '$1' in cloud '$CLOUD_TYPE'"
+    echo time terraform apply -auto-approve
+}
+    
+
+# 处理过程
+function do_process()
+{
+    ## check project name
+    if [ "$PROJECT_NAME" == "" ];then
+        echo "ERROR: project name can not be empty"
+        usage
+    fi
+
+    ## check cloud type
+    case "$CLOUD_TYPE" in
+        aws)
+            fn_create_aws $PROJECT_NAME
+            ;;
+        *)
+            echo "ERROR: --type only support 'aws' now"
+            exit 1
+            ;;
+    esac
+}
+
+############################
+# main
+############################
+init "$@"
+do_process
+ 
+exit 0
