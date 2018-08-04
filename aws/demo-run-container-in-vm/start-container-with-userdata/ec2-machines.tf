@@ -9,7 +9,7 @@ resource "aws_instance" "ContainerVM" {
         Name = "${var.PROJECT_NAME}-ContainerVM"
   }
   provisioner "local-exec" {
-    command = "echo 'CHECK_NGINX:'`date`;curl -s http://${aws_instance.ContainerVM.*.public_ip} >/dev/null; while [ $? -ne 0 ];do sleep 1; echo `date`; curl -s http://${aws_instance.ContainerVM.*.public_ip} >/dev/null; done"
+    command = "echo 'CHECK_NGINX:'`date`;curl -s http://${self.*.public_ip} >/dev/null; while [ $? -ne 0 ];do sleep 1; echo `date`; curl -s http://${self.*.public_ip} >/dev/null; done"
   }
 
   #the userdata script will be executed as root; if the uesrdata changed, the old instance will be replaced by a new one when apply

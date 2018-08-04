@@ -1,7 +1,22 @@
-# Bash CLI
+Bash CLI
+--------------
+
 **A command line framework built using nothing but Bash and compatible with anything**
 
 REF: https://github.com/SierraSoftworks/bash-cli
+
+<!-- TOC -->
+
+- [Bash CLI](#bash-cli)
+- [create command](#create-command)
+- [define command](#define-command)
+- [usage](#usage)
+    - [create project](#create-project)
+    - [delete project](#delete-project)
+    - [run container](#run-container)
+    - [rm container](#rm-container)
+
+<!-- /TOC -->
 
 ## create command
 ```
@@ -12,6 +27,7 @@ $ sudo ./cli install my-pi
 $ ./cli command create project create
 $ ./cli command create project delete
 $ ./cli command create run
+$ ./cli command create rm
 ```
 
 ## define command
@@ -19,8 +35,9 @@ $ ./cli command create run
 - app/project/create
 - app/project/delete
 - app/run
+- app/rm
 
-## use command
+## usage
 
 ### create project
 ```
@@ -36,8 +53,10 @@ apply duration: 115 (seconds)
 ```
 $ my-pi project delete --type aws demo
 Start to delete project 'demo' in cloud 'aws'
- terraform destroy -auto-approve -var PROJECT_NAME=demo sucessed.
-duration: 109 (seconds)
+ terraform refresh -var PROJECT_NAME=demo sucessed.
+refresh duration: 31 (seconds)
+ terraform destroy -auto-approve -refresh=false -var PROJECT_NAME=demo sucessed.
+destroy duration: 62 (seconds)
 ```
 
 ### run container
@@ -48,4 +67,14 @@ Start to run container 'demo' in cloud 'aws'
 refresh duration: 18 (seconds)
  terraform apply -auto-approve refresh=false -var PROJECT_NAME=demo sucessed.
 apply duration: 77 (seconds)
+```
+
+### rm container
+```
+$ my-pi rm --type aws demo
+Start to rm container 'demo' in cloud 'aws'
+ terraform refresh -var PROJECT_NAME=demo sucessed.
+refresh duration: 33 (seconds)
+ terraform destroy -auto-approve refresh=false -var PROJECT_NAME=demo sucessed.
+destroy duration: 73 (seconds)
 ```

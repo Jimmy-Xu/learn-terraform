@@ -53,18 +53,18 @@ function init()
     return
 }
 
-function fn_delete_aws()
+function fn_rm_aws()
 {
-    UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../util && pwd )"
-    WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../../prepare-resource && pwd )"
-    LOG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../log && pwd )"
+    UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ./util && pwd )"
+    WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../start-container-with-userdata && pwd )"
+    LOG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../log && pwd )"
     
     source $UTIL_DIR/log.sh
 
     cd $WORK_DIR
-    echo "Start to delete project '$1' in cloud '$CLOUD_TYPE'"
-    LOG_FILE="project_delete.$(date "+%Y%m%d_%H%M%S").log"
-
+    echo "Start to rm container '$1' in cloud '$CLOUD_TYPE'"
+    LOG_FILE="container_rm.$(date "+%Y%m%d_%H%M%S").log"
+    
     #refresh
     START_TS=$(date +"%s")
     terraform refresh -var PROJECT_NAME=$1 > $LOG_DIR/$LOG_FILE 2>&1 
@@ -75,7 +75,7 @@ function fn_delete_aws()
     #destroy
     START_TS=$(date +"%s")
     terraform destroy -auto-approve -var PROJECT_NAME=$1 >> $LOG_DIR/$LOG_FILE 2>&1 
-    fn_log "${LOG_FILE}" "terraform destroy -auto-approve -refresh=false -var PROJECT_NAME=$1"
+    fn_log "${LOG_FILE}" "terraform destroy -auto-approve refresh=false -var PROJECT_NAME=$1"
     END_TS=$(date +"%s")
     echo "destroy duration: $((END_TS-START_TS)) (seconds)"
 }
@@ -83,16 +83,16 @@ function fn_delete_aws()
 # 处理过程
 function do_process()
 {
-    ## check project name
+    ## check container name
     if [ "$PROJECT_NAME" == "" ];then
-        echo "ERROR: project name can not be empty"
+        echo "ERROR: container name can not be empty"
         usage
     fi
 
     ## check cloud type
     case "$CLOUD_TYPE" in
         aws)
-            fn_delete_aws $PROJECT_NAME
+            fn_rm_aws $PROJECT_NAME
             ;;
         *)
             echo "ERROR: --type only support 'aws' now"
