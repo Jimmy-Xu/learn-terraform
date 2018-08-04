@@ -18,7 +18,7 @@ function usage()
 function init()
 {
     #gnu-getopt required for macOSX: brew install gnu-getopt && brew link --force gnu-getopt
-    ARGS="`getopt -u -o "d:h" -l "type:,help,debug" -- "$@"`"
+    ARGS="`getopt -u -o "t:h" -l "type:,help,debug" -- "$@"`"
     [ $? -ne 0 ] && usage
     set -- ${ARGS}
 
@@ -64,11 +64,20 @@ function fn_create_aws()
     cd $WORK_DIR
     echo "Start to create project '$1' in cloud '$CLOUD_TYPE'"
     LOG_FILE="project_create.$(date "+%Y%m%d_%H%M%S").log"
+
+    #refresh
     START_TS=$(date +"%s")
-    terraform apply -auto-approve -var PROJECT_NAME=$1 > $LOG_DIR/$LOG_FILE 2>&1 
-    fn_log "${LOG_FILE}" "terraform apply -auto-approve -var PROJECT_NAME=$1"
+    terraform refresh -var PROJECT_NAME=$1 > $LOG_DIR/$LOG_FILE 2>&1 
+    fn_log "${LOG_FILE}" "terraform refresh -var PROJECT_NAME=$1"
     END_TS=$(date +"%s")
-    echo "duration: $((END_TS-START_TS)) (seconds)"
+    echo "refresh duration: $((END_TS-START_TS)) (seconds)"
+
+    #apply
+    START_TS=$(date +"%s")
+    terraform apply -auto-approve -refresh=false -var PROJECT_NAME=$1 >> $LOG_DIR/$LOG_FILE 2>&1 
+    fn_log "${LOG_FILE}" "terraform apply -auto-approve -refresh=false -var PROJECT_NAME=$1"
+    END_TS=$(date +"%s")
+    echo "apply duration: $((END_TS-START_TS)) (seconds)"
 }
 
 # 处理过程

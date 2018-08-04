@@ -2,7 +2,8 @@
 #log path is ${LOG_DIR}/bash-cli
 #if commod execute sucessed,it will return 0 else return 1
 
-LOG_DIR=$(cd `dirname $0`; cd ../../log; pwd)
+
+LOG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../log && pwd )"
 
 function log_info ()
 {
