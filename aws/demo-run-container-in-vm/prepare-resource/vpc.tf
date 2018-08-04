@@ -11,6 +11,6 @@ resource "aws_vpc" "VPC" {
     enable_dns_support = true
     enable_dns_hostnames = true
     tags {
-      Name = "${var.DEMO_NAME}-VPC"
+      Name = "${var.PROJECT_NAME}-VPC"
     }
 }

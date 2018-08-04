@@ -4,14 +4,14 @@
 data "aws_vpc" "VPC" {
   filter {
     name = "tag:Name"
-    values = ["${var.DEMO_NAME}-VPC"]
+    values = ["${var.PROJECT_NAME}-VPC"]
   }
 }
 
 # get all subnets
 data "aws_subnet_ids" "ALL_SUBNET" {
   tags {
-    Name = "${var.DEMO_NAME}-PUBLIC_SUBNET"
+    Name = "${var.PROJECT_NAME}-PUBLIC_SUBNET"
   }
   vpc_id = "${data.aws_vpc.VPC.id}"
 }

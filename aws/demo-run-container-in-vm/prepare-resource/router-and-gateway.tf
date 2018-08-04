@@ -5,7 +5,7 @@ data "aws_availability_zones" "AZ_LIST" {}
 resource "aws_internet_gateway" "IGW" {
    vpc_id = "${aws_vpc.VPC.id}"
     tags {
-        Name = "${var.DEMO_NAME}-IGW"
+        Name = "${var.PROJECT_NAME}-IGW"
     }
 }
 
@@ -28,13 +28,13 @@ resource "aws_network_acl" "ACL" {
         to_port = 0
     }
     tags {
-        Name = "${var.DEMO_NAME}-ACL" #open acl
+        Name = "${var.PROJECT_NAME}-ACL" #open acl
     }
 }
 resource "aws_route_table" "MAIN_RT" {
   vpc_id = "${aws_vpc.VPC.id}"
   tags {
-      Name = "${var.DEMO_NAME}-MAIN_RT"
+      Name = "${var.PROJECT_NAME}-MAIN_RT"
   }
   route {
         cidr_block = "0.0.0.0/0"

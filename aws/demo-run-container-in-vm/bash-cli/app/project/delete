@@ -53,7 +53,7 @@ function init()
     return
 }
 
-function fn_create_aws()
+function fn_delete_aws()
 {
     UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../util && pwd )"
     WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../../prepare-resource && pwd )"
@@ -62,11 +62,11 @@ function fn_create_aws()
     source $UTIL_DIR/log.sh
 
     cd $WORK_DIR
-    echo "Start to create project '$1' in cloud '$CLOUD_TYPE'"
-    LOG_FILE="project_create.$(date "+%Y%m%d_%H%M%S").log"
+    echo "Start to delete project '$1' in cloud '$CLOUD_TYPE'"
+    LOG_FILE="project_delete.$(date "+%Y%m%d_%H%M%S").log"
     START_TS=$(date +"%s")
-    terraform apply -auto-approve -var PROJECT_NAME=$1 > $LOG_DIR/$LOG_FILE 2>&1 
-    fn_log "${LOG_FILE}" "terraform apply -auto-approve -var PROJECT_NAME=$1"
+    terraform destroy -auto-approve -var PROJECT_NAME=$1 > $LOG_DIR/$LOG_FILE 2>&1 
+    fn_log "${LOG_FILE}" "terraform destroy -auto-approve -var PROJECT_NAME=$1"
     END_TS=$(date +"%s")
     echo "duration: $((END_TS-START_TS)) (seconds)"
 }
@@ -83,7 +83,7 @@ function do_process()
     ## check cloud type
     case "$CLOUD_TYPE" in
         aws)
-            fn_create_aws $PROJECT_NAME
+            fn_delete_aws $PROJECT_NAME
             ;;
         *)
             echo "ERROR: --type only support 'aws' now"

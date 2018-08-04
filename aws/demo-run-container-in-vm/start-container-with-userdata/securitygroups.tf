@@ -1,7 +1,7 @@
 resource "aws_security_group" "SG" {
   name = "SG"
   tags {
-        Name = "${var.DEMO_NAME}-SG"
+        Name = "${var.PROJECT_NAME}-SG"
   }
   description = "allow http, ssh and docker"
   vpc_id = "${data.aws_vpc.VPC.id}"

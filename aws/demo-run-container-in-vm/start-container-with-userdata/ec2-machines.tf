@@ -6,7 +6,7 @@ resource "aws_instance" "ContainerVM" {
   vpc_security_group_ids = ["${aws_security_group.SG.id}"]
   key_name = "${var.KP}"
   tags {
-        Name = "${var.DEMO_NAME}-ContainerVM"
+        Name = "${var.PROJECT_NAME}-ContainerVM"
   }
   #the userdata script will be executed as root; if the uesrdata changed, the old instance will be replaced by a new one when apply
   user_data = <<HEREDOC

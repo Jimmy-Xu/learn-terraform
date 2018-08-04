@@ -1,5 +1,5 @@
 
-variable "DEMO_NAME" {
+variable "PROJECT_NAME" {
   default = "demo-run-container-in-vm"
 }
 variable "PROFILE" {
