@@ -55,7 +55,7 @@ function init()
 
 function fn_delete_aws()
 {
-    UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../util && pwd )"
+    UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../util && pwd )"
     WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../../prepare-resource && pwd )"
     LOG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../log && pwd )"
     
