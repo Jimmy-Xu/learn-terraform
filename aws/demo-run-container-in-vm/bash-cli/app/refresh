@@ -11,14 +11,14 @@ PROJECT_NAME=""
 # 用法
 function usage()
 {
-    echo "Usage: ${BASE_NAME} [--debug] [-h|--help] [-r|--refresh] [-t|--type aws|gcp|azure]"    
+    echo "Usage: ${BASE_NAME} [--debug] [-h|--help] [-t|--type aws|gcp|azure]"    
     exit 1
 }
 # 初始化
 function init()
 {
     #gnu-getopt required for macOSX: brew install gnu-getopt && brew link --force gnu-getopt
-    ARGS="`getopt -u -o "t:hr" -l "type:,help,debug,refresh" -- "$@"`"
+    ARGS="`getopt -u -o "t:h" -l "type:,help,debug" -- "$@"`"
     [ $? -ne 0 ] && usage
     set -- ${ARGS}
 
@@ -29,9 +29,6 @@ function init()
                 ;;
             -h|--help)
                 IS_HELP="true"
-                ;;
-            -r|--refresh)
-                IS_REFRESH="true"
                 ;;
             -t|--type)
                 CLOUD_TYPE=$2
@@ -56,7 +53,7 @@ function init()
     return
 }
 
-function fn_run_aws()
+function fn_refresh_aws()
 {
     UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../util && pwd )"
     WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../start-container-with-userdata && pwd )"
@@ -65,26 +62,15 @@ function fn_run_aws()
     source $UTIL_DIR/log.sh
 
     cd $WORK_DIR
-    echo "Start to run container '$1' in cloud '$CLOUD_TYPE'"
-    LOG_FILE="container_run.$(date "+%Y%m%d_%H%M%S").log"
+    echo "Start to refresh container '$1' in cloud '$CLOUD_TYPE'"
+    LOG_FILE="container_refresh.$(date "+%Y%m%d_%H%M%S").log"
     
     #refresh
-    if [ "$IS_REFRESH" == "true" ];then    
-        START_TS=$(date +"%s")
-        terraform refresh -var PROJECT_NAME=$1 > $LOG_DIR/$LOG_FILE 2>&1 
-        fn_log "${LOG_FILE}" "terraform refresh -var PROJECT_NAME=$1"
-        END_TS=$(date +"%s")
-        echo "refresh duration: $((END_TS-START_TS)) (seconds)"
-    else
-        echo "<skip refresh dure to without --refresh>"
-    fi
-
-    #apply
     START_TS=$(date +"%s")
-    terraform apply -auto-approve -var PROJECT_NAME=$1 >> $LOG_DIR/$LOG_FILE 2>&1 
-    fn_log "${LOG_FILE}" "terraform apply -auto-approve refresh=false -var PROJECT_NAME=$1"
+    terraform refresh -var PROJECT_NAME=$1 > $LOG_DIR/$LOG_FILE 2>&1 
+    fn_log "${LOG_FILE}" "terraform refresh -var PROJECT_NAME=$1"
     END_TS=$(date +"%s")
-    echo "apply duration: $((END_TS-START_TS)) (seconds)"
+    echo "refresh duration: $((END_TS-START_TS)) (seconds)"
 }
 
 # 处理过程
@@ -99,7 +85,7 @@ function do_process()
     ## check cloud type
     case "$CLOUD_TYPE" in
         aws)
-            fn_run_aws $PROJECT_NAME
+            fn_refresh_aws $PROJECT_NAME
             ;;
         *)
             echo "ERROR: --type only support 'aws' now"

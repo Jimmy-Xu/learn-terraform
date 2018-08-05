@@ -56,7 +56,7 @@ function init()
     return
 }
 
-function fn_run_aws()
+function fn_get_aws()
 {
     UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../util && pwd )"
     WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../start-container-with-userdata && pwd )"
@@ -65,8 +65,8 @@ function fn_run_aws()
     source $UTIL_DIR/log.sh
 
     cd $WORK_DIR
-    echo "Start to run container '$1' in cloud '$CLOUD_TYPE'"
-    LOG_FILE="container_run.$(date "+%Y%m%d_%H%M%S").log"
+    echo "Start to get container '$1' in cloud '$CLOUD_TYPE'"
+    LOG_FILE="container_get.$(date "+%Y%m%d_%H%M%S").log"
     
     #refresh
     if [ "$IS_REFRESH" == "true" ];then    
@@ -79,12 +79,10 @@ function fn_run_aws()
         echo "<skip refresh dure to without --refresh>"
     fi
 
-    #apply
-    START_TS=$(date +"%s")
-    terraform apply -auto-approve -var PROJECT_NAME=$1 >> $LOG_DIR/$LOG_FILE 2>&1 
-    fn_log "${LOG_FILE}" "terraform apply -auto-approve refresh=false -var PROJECT_NAME=$1"
-    END_TS=$(date +"%s")
-    echo "apply duration: $((END_TS-START_TS)) (seconds)"
+    #output
+    echo "=============================="
+    terraform output
+    echo "=============================="
 }
 
 # 处理过程
@@ -99,7 +97,7 @@ function do_process()
     ## check cloud type
     case "$CLOUD_TYPE" in
         aws)
-            fn_run_aws $PROJECT_NAME
+            fn_get_aws $PROJECT_NAME
             ;;
         *)
             echo "ERROR: --type only support 'aws' now"

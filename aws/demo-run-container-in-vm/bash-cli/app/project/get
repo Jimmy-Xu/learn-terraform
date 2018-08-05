@@ -6,6 +6,7 @@ IS_HELP="false"
 IS_DEBUG="false"
 CLOUD_TYPE="aws"
 PROJECT_NAME=""
+IS_REFRESH="false"
 
 # 自定义函数
 # 用法
@@ -56,18 +57,18 @@ function init()
     return
 }
 
-function fn_run_aws()
+function fn_get_aws()
 {
-    UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../util && pwd )"
-    WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../start-container-with-userdata && pwd )"
-    LOG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../log && pwd )"
+    UTIL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../util && pwd )"
+    WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../../prepare-resource && pwd )"
+    LOG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../../log && pwd )"
     
     source $UTIL_DIR/log.sh
 
     cd $WORK_DIR
-    echo "Start to run container '$1' in cloud '$CLOUD_TYPE'"
-    LOG_FILE="container_run.$(date "+%Y%m%d_%H%M%S").log"
-    
+    echo "Start to get project '$1' in cloud '$CLOUD_TYPE'"
+    LOG_FILE="project_get.$(date "+%Y%m%d_%H%M%S").log"
+
     #refresh
     if [ "$IS_REFRESH" == "true" ];then    
         START_TS=$(date +"%s")
@@ -79,27 +80,25 @@ function fn_run_aws()
         echo "<skip refresh dure to without --refresh>"
     fi
 
-    #apply
-    START_TS=$(date +"%s")
-    terraform apply -auto-approve -var PROJECT_NAME=$1 >> $LOG_DIR/$LOG_FILE 2>&1 
-    fn_log "${LOG_FILE}" "terraform apply -auto-approve refresh=false -var PROJECT_NAME=$1"
-    END_TS=$(date +"%s")
-    echo "apply duration: $((END_TS-START_TS)) (seconds)"
+    #output
+    echo "=============================="
+    terraform output
+    echo "=============================="
 }
 
 # 处理过程
 function do_process()
 {
-    ## check container name
+    ## check project name
     if [ "$PROJECT_NAME" == "" ];then
-        echo "ERROR: container name can not be empty"
+        echo "ERROR: project name can not be empty"
         usage
     fi
 
     ## check cloud type
     case "$CLOUD_TYPE" in
         aws)
-            fn_run_aws $PROJECT_NAME
+            fn_get_aws $PROJECT_NAME
             ;;
         *)
             echo "ERROR: --type only support 'aws' now"
