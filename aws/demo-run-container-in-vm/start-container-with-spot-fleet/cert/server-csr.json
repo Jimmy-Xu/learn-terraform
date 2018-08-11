@@ -1,0 +1,21 @@
+{
+    "CN": "example.io",
+    "hosts": [
+        "example.io",
+        "docker.example.io"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "CN",
+            "L": "BJ",
+            "ST": "BJ",
+            "O": "HyperHQ",
+            "OU": "Dev"
+        }
+    ]
+}
+

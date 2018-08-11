@@ -1,6 +1,6 @@
 # Configure the Docker provider
 provider "docker" {
-  host = "tcp://${data.aws_instance.ContainerVM.*.public_ip}:2375/"
+  host = "tcp://${data.aws_instance.ContainerVM.public_ip}:5732/"
 }
 
 # Create a container
