@@ -28,7 +28,11 @@ data "aws_iam_role" "IAM_ROLE" {
 
 data "aws_instances" "SPOT_FLEET_INSTANCE_IPS" {
   instance_tags {
-    "aws:ec2spot:fleet-request-id" = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.id}"
+    Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
+  }
+  filter {
+    name   = "tag:Name"
+    values = ["${var.PROJECT_NAME}-SpotFleet-ContainerVM"]
   }
 }
 
