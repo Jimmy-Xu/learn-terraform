@@ -3,11 +3,18 @@ resource "aws_launch_template" "LAUNCH_TEMPLATE" {
     instance_type = "t2.micro"
     key_name = "${var.KP}"
     network_interfaces {
-      subnet_id = "${data.aws_subnet.PUBLIC_SUBNET.id}"
       associate_public_ip_address = true
+      delete_on_termination = true
+      subnet_id = "${data.aws_subnet.PUBLIC_SUBNET.id}"
       security_groups = ["${aws_security_group.SG.id}"]
     }
     tags {
-          Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
+          Name = "${var.PROJECT_NAME}-LC"
+    }
+    tag_specifications {
+      resource_type = "instance"
+      tags {
+        Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
+      }
     }
 }

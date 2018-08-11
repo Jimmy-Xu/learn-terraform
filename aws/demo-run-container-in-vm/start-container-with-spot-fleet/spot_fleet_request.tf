@@ -1,7 +1,7 @@
 resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
     iam_fleet_role = "${data.aws_iam_role.IAM_ROLE.arn}"
     spot_price = "0.0044"
-    target_capacity = 2
+    target_capacity = 1
     on_demand_target_capacity = 1
     valid_until = "2019-11-04T20:44:20Z"
     terminate_instances_with_expiration = true

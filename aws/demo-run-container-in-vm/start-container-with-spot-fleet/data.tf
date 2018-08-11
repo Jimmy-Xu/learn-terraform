@@ -26,6 +26,11 @@ data "aws_iam_role" "IAM_ROLE" {
     name = "aws-ec2-spot-fleet-tagging-role"
 }
 
+data "aws_instances" "SPOT_FLEET_INSTANCE_IPS" {
+  instance_tags {
+    "aws:ec2spot:fleet-request-id" = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.id}"
+  }
+}
 
 ################################
 # cert file for docker daemon
@@ -41,3 +46,4 @@ data "template_file" "CERT_SERVER" {
 data "template_file" "CERT_SERVER_KEY" {
   template = "${file("cert/server-key.pem")}"
 }
+
