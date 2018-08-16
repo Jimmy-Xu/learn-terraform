@@ -13,6 +13,7 @@ resource "aws_instance" "ContainerVM" {
   }
 
   #the userdata script will be executed as root; if the uesrdata changed, the old instance will be replaced by a new one when apply
+  # user_data_base64(base64), user_data(plain)
   user_data = <<HEREDOC
 #!/bin/bash
 

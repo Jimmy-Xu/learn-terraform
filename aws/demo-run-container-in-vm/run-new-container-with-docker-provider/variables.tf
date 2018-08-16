@@ -6,7 +6,7 @@ variable "PROFILE" {
   default = "ecs-test"
 }
 variable "REGION" {
-  default = "ap-southeast-1"
+  default = "us-east-1"
 }
 
 /*

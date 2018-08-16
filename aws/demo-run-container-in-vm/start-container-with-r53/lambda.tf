@@ -1,4 +1,4 @@
-resource "aws_iam_role" "IAM_FOR_LAMBDA" {
+resource "aws_iam_role" "IAM_ROLE_FOR_LAMBDA" {
   name = "${var.PROJECT_NAME}-iam_for_lambda"
 
   assume_role_policy = <<EOF
@@ -18,10 +18,43 @@ resource "aws_iam_role" "IAM_FOR_LAMBDA" {
 EOF
 }
 
+
+resource "aws_iam_role_policy" "IAM_POLICY_FOR_LAMBDA" {
+    name = "${var.PROJECT_NAME}-iam_policy_for_lambda"
+    role = "${aws_iam_role.IAM_ROLE_FOR_LAMBDA.id}"
+    policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "ec2:DescribeInstances"
+        ],
+        "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+           "ec2:DescribeInstances",
+           "ec2:CreateNetworkInterface",
+           "ec2:AttachNetworkInterface",
+           "ec2:DescribeNetworkInterfaces",
+           "ec2:DeleteNetworkInterface"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_lambda_function" "UPDATE_R53_RECORD" {
   filename         = "script/update_r53_record.zip"
   function_name    = "hyperUpdateR53Record"
-  role             = "${aws_iam_role.IAM_FOR_LAMBDA.arn}"
+  role             = "${aws_iam_role.IAM_ROLE_FOR_LAMBDA.arn}"
   handler          = "hyperUpdateR53Record.handler"
   source_code_hash = "${base64sha256(file("script/update_r53_record.zip"))}"
   runtime          = "python2.7"
