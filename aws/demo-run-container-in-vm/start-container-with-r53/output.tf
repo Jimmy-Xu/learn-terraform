@@ -21,12 +21,15 @@ output "SFR_id" {
 
 output "SPOT_INSTANCE_PRIVATE_IPS" {
   value = "${data.aws_instances.SPOT_FLEET_INSTANCE_IPS.private_ips}"
+  depends_on = ["data.aws_instances.SPOT_FLEET_INSTANCE_IPS"]
 }
 
 output "SPOT_INSTANCE_PUBLIC_IPS" {
   value = "${data.aws_instances.SPOT_FLEET_INSTANCE_IPS.public_ips}"
+  depends_on = ["data.aws_instances.SPOT_FLEET_INSTANCE_IPS"]
 }
 
 output "SPOT_INSTANCE_PUBLIC_IDS" {
   value = "${data.aws_instances.SPOT_FLEET_INSTANCE_IPS.ids}"
+  depends_on = ["data.aws_instances.SPOT_FLEET_INSTANCE_IPS"]
 }
