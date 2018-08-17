@@ -53,9 +53,9 @@ EOF
 
 resource "aws_lambda_function" "UPDATE_R53_RECORD" {
   filename         = "script/update_r53_record.zip"
-  function_name    = "hyperUpdateR53Record"
+  function_name    = "update_r53_record"
   role             = "${aws_iam_role.IAM_ROLE_FOR_LAMBDA.arn}"
-  handler          = "hyperUpdateR53Record.handler"
+  handler          = "update_r53_record.handler"
   source_code_hash = "${base64sha256(file("script/update_r53_record.zip"))}"
   runtime          = "python2.7"
   vpc_config {
@@ -68,6 +68,38 @@ resource "aws_lambda_function" "UPDATE_R53_RECORD" {
       dns_zone_name = "${var.DNS_ZONE_NAME}"
     }
   }
+}
+
+resource "aws_cloudwatch_event_rule" "CLW_EVT_RULE" {
+  name = "${var.PROJECT_NAME}-clw_event_rule"
+  event_pattern = <<PATTERN
+{
+  "source": [
+    "aws.ec2"
+  ],
+  "detail-type": [
+    "EC2 Instance State-change Notification"
+  ]
+}
+PATTERN
+  depends_on = ["aws_lambda_function.UPDATE_R53_RECORD"]
+  schedule_expression = "rate(1 minute)"
+}
+
+resource "aws_cloudwatch_event_target" "CLW_EVT_TGT" {
+  target_id = "${var.PROJECT_NAME}-clw_event_target"
+  rule = "${aws_cloudwatch_event_rule.CLW_EVT_RULE.name}"
+  arn = "${aws_lambda_function.UPDATE_R53_RECORD.arn}"
+  input = <<INPUT
+INPUT
+}
+
+resource "aws_lambda_permission" "CLW_EVT_PERMISSION" {
+  statement_id = "${var.PROJECT_NAME}-lambda_permission"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.UPDATE_R53_RECORD.function_name}"
+  principal = "events.amazonaws.com"
+  source_arn = "${aws_cloudwatch_event_rule.CLW_EVT_RULE.arn}"
 }
 
 # resource "aws_lambda_function" "check_foo" {

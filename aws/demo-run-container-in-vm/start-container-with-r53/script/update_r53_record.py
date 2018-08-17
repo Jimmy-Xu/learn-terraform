@@ -3,7 +3,7 @@ import boto3
 import botocore
 import json
 
-def handler_name(event, context):
+def handler(event, context):
     # receive
     project_name = os.environ.get('project_name')
     dns_zone_name = os.environ.get('dns_zone_name')

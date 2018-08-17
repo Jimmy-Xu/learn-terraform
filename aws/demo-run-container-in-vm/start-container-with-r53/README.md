@@ -40,7 +40,7 @@ IAMFullAccess
 
 > for write lambda
 ```
-$ sudo pip install botocore==1.10.67 boto3==1.7.67
+$ sudo pip install botocore==1.10.67 boto3==1.7.67 awscli=1.15.68
 ```
 
 ## build pr of terraform-provider-aws
