@@ -36,10 +36,15 @@ variable "VPC_FULLC_IDR" {
     default = "172.28.0.0/16"
   description = "the vpc cdir"
 }
-variable "Subnet-Public-AzA-CIDR" {
+variable "SUBNET-PUBLIC-AZA-CIDR" {
   default = "172.28.0.0/24"
-  description = "the cidr of the subnet"
+  description = "the cidr of the subnet a"
 }
+variable "SUBNET-PUBLIC-AZB-CIDR" {
+  default = "172.28.1.0/24"
+  description = "the cidr of the subnet b"
+}
+
 variable "Subnet-Private-AzA-CIDR" {
   default = "172.28.3.0/24"
   description = "the cidr of the subnet"

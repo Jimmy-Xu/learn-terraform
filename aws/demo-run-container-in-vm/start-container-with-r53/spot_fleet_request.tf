@@ -1,7 +1,7 @@
 resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
     iam_fleet_role = "${data.aws_iam_role.IAM_ROLE.arn}"
     spot_price = "0.0035"
-    target_capacity = 1
+    target_capacity = 0
     on_demand_target_capacity = 0
     valid_until = "2019-08-16T14:53:08Z"
     terminate_instances_with_expiration = true
@@ -12,5 +12,5 @@ resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
         version = "${aws_launch_template.LAUNCH_TEMPLATE.latest_version}"
       }
     }
-    #depends_on = ["aws_iam_policy_attachment.test-attach"]
+    depends_on = ["aws_launch_template.LAUNCH_TEMPLATE"]
 }

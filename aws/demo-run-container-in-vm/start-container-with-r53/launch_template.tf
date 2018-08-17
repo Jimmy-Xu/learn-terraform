@@ -5,7 +5,7 @@ resource "aws_launch_template" "LAUNCH_TEMPLATE" {
     network_interfaces {
       associate_public_ip_address = true
       delete_on_termination = true
-      subnet_id = "${data.aws_subnet.PUBLIC_SUBNET.id}"
+      subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[0]}"
       security_groups = ["${aws_security_group.SG.id}"]
     }
     tags {

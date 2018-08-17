@@ -5,8 +5,7 @@ Create required aws resources: vpc, subnet, routetable, acl, igw, sg.
 
 Set PROFILE and REGION in variables.tf first.
 
-Run `openssl genrsa -out private_key.pem 4096` to generate private_key.pem
-
+Generate keypair via run `ssh-keygen`, put the public key in data/public_key.pem.
 
 <!-- TOC -->
 
