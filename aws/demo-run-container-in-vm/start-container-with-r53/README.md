@@ -19,7 +19,7 @@ test with Spot Fleet + CloudWatch + Lambda + R53
     - [get spot instance price of a instance_type](#get-spot-instance-price-of-a-instancetype)
     - [get spot instance price in all region](#get-spot-instance-price-in-all-region)
     - [get price for on-demand instance](#get-price-for-on-demand-instance)
-- [issues](#issues)
+- [FAQ](#faq)
     - [about update target_capacity for spot_fleet_request](#about-update-targetcapacity-for-spotfleetrequest)
     - [time duration after set target_capacity from 1 to 0](#time-duration-after-set-targetcapacity-from-1-to-0)
 
@@ -297,7 +297,7 @@ sa-east-1c      0.005600
 
 https://www.ec2instances.info/?filter=t2&cost_duration=hourly&reserved_term=yrTerm1Standard.noUpfront&region=ap-southeast-1
 
-# issues
+# FAQ
 
 ## about update target_capacity for spot_fleet_request
 
@@ -316,3 +316,4 @@ update target_capacity from 1 to 0 is invalid, terraform apply return ok, but ta
 
 > EC2 instance: (2018-08-17 12:06:15 GMT)    terminated
 ``
+

@@ -16,4 +16,7 @@ docker run -d -p 80:80 nginx
 
 echo "END: "`date "+%Y-%m-%d %H:%M:%S"`
 
+## list r53 zone
+aws route53 list-hosted-zones
+
 echo "OS START: "`date -d "$(awk -F. '{print $1}' /proc/uptime) second ago" +"%Y-%m-%d %H:%M:%S"`

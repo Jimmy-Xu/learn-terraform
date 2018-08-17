@@ -31,7 +31,7 @@ variable "DNS_ZONE_NAME" {
 
 ########################################################################
 
-variable "AMI" {
+variable "AMI_COREOS" {
   type = "map"
   default = {
     ap-southeast-1 = "ami-ff084815" #Singapore
@@ -40,4 +40,15 @@ variable "AMI" {
     us-west-1 = "ami-3cea065f" # California
   }
   description = "CoreOS Container Linux on EC2 - HVM (https://coreos.com/os/docs/latest/booting-on-ec2.html)"
+}
+
+variable "AMI_ECS_OPTIMIZED" {
+  type = "map"
+  default = {
+    ap-southeast-1 = "ami-091bf462afdb02c60" #Singapore
+    ap-northeast-1 = "ami-0041c416aa23033a2" #Tokyo
+    us-east-1 = "ami-00129b193dc81bc31" # Virginia
+    us-west-1 = "ami-0d438d09af26c9583" # California
+  }
+  description = "Amazon ECS-Optimized AMI - (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)"
 }

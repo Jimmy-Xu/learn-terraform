@@ -1,5 +1,5 @@
 resource "aws_launch_template" "LAUNCH_TEMPLATE" {
-    image_id           = "${lookup(var.AMI, var.REGION)}"
+    image_id           = "${lookup(var.AMI_ECS_OPTIMIZED, var.REGION)}"
     instance_type = "t2.micro"
     key_name = "${var.PROJECT_NAME}-kp"
     network_interfaces {

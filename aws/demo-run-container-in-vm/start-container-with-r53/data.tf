@@ -22,10 +22,6 @@ data "aws_subnet" "PUBLIC_SUBNET" {
     vpc_id = "${data.aws_vpc.VPC.id}"
 }
 
-data "aws_iam_role" "IAM_ROLE" {
-    name = "aws-ec2-spot-fleet-tagging-role"
-}
-
 data "aws_instances" "SPOT_FLEET_INSTANCE_IPS" {
   instance_tags {
     Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
