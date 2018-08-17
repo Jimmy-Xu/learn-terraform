@@ -33,3 +33,11 @@ output "SPOT_INSTANCE_PUBLIC_IDS" {
   value = "${data.aws_instances.SPOT_FLEET_INSTANCE_IPS.ids}"
   depends_on = ["data.aws_instances.SPOT_FLEET_INSTANCE_IPS"]
 }
+
+output "SPOT_FLEET_REQUEST_STATUS" {
+  value = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.spot_request_state}"
+}
+
+output "SPOT_FLEET_REQUEST_TARGET_CAPACITY" {
+  value = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.target_capacity}"
+}

@@ -36,3 +36,5 @@ data "aws_instances" "SPOT_FLEET_INSTANCE_IPS" {
   }
   depends_on = ["aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
 }
+
+
