@@ -102,6 +102,13 @@ resource "aws_lambda_permission" "CLW_EVT_PERMISSION" {
   source_arn = "${aws_cloudwatch_event_rule.CLW_EVT_RULE.arn}"
 }
 
+resource "aws_cloudwatch_log_group" "CLW_LOG_GROUP" {
+  name = "/aws/lambda/${aws_lambda_function.UPDATE_R53_RECORD.function_name}"
+  tags {
+    Note = "${var.PROJECT_NAME}-for-${aws_lambda_function.UPDATE_R53_RECORD.function_name}"
+  }
+}
+
 # resource "aws_lambda_function" "check_foo" {
 #     filename = "check_foo.zip"
 #     function_name = "checkFoo"
