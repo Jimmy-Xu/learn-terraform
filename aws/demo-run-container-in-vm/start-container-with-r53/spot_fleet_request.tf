@@ -71,28 +71,6 @@ resource "aws_iam_role_policy" "IAM_POLICY_FOR_SPOT_FLEET" {
             "Resource": [
                 "*"
             ]
-        },
-
-        {
-            "Effect": "Allow",
-            "Action": [
-                "route53domains:Get*",
-                "route53domains:List*"
-            ],
-            "Resource": [
-                "*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "route53:Get*",
-                "route53:List*",
-                "route53:TestDNSAnswer"
-            ],
-            "Resource": [
-                "*"
-            ]
         }
     ]
 }

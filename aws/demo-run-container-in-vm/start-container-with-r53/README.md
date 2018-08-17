@@ -11,6 +11,7 @@ test with Spot Fleet + CloudWatch + Lambda + R53
 - [get info](#get-info)
 - [remote access](#remote-access)
     - [ssh connect to EC2 Instance](#ssh-connect-to-ec2-instance)
+    - [remote execute command](#remote-execute-command)
     - [execute docker ps](#execute-docker-ps)
     - [enter container](#enter-container)
     - [memory usage](#memory-usage)
@@ -114,6 +115,26 @@ Last login: Fri Aug 17 02:53:18 UTC 2018 from 123.116.140.17 on pts/0
 Container Linux by CoreOS stable (1800.5.0)
 core@ip-172-28-0-144 ~ $ exit
 Connection to 54.91.193.152 closed.
+```
+
+## remote execute command
+
+```
+$ ssh -i ~/.ssh/demo ec2-user@54.86.108.47 "cat zone.txt"
+{
+    "HostedZones": [
+        {
+            "ResourceRecordSetCount": 2,
+            "CallerReference": "terraform-20180817134954107800000001",
+            "Config": {
+                "Comment": "demo-R53Zone",
+                "PrivateZone": true
+            },
+            "Id": "/hostedzone/ZTEYMCPIEBQC",
+            "Name": "example.io."
+        }
+    ]
+}
 ```
 
 ## execute docker ps
