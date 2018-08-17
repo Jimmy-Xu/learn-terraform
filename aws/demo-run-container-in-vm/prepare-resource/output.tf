@@ -5,3 +5,7 @@ output "vpc_id" {
 output "project_name" {
   value = "${var.PROJECT_NAME}"
 }
+
+output "key_pair" {
+  value = "${aws_key_pair.KEY_PAIR.key_name}"
+}

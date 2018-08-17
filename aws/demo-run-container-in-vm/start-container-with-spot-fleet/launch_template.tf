@@ -1,7 +1,7 @@
 resource "aws_launch_template" "LAUNCH_TEMPLATE" {
     image_id           = "${lookup(var.AMI, var.REGION)}"
     instance_type = "t2.micro"
-    key_name = "${var.KP}"
+    key_name = "${var.PROJECT_NAME}-kp"
     network_interfaces {
       associate_public_ip_address = true
       delete_on_termination = true

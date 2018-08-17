@@ -30,10 +30,7 @@ variable "DNS_ZONE_NAME" {
 }
 
 ########################################################################
-variable "KP" {
-  default = "test-terraform"
-  description = "the keypair(ssh key) to use in the EC2 machines, please create it first in test region manually"
-}
+
 variable "AMI" {
   type = "map"
   default = {

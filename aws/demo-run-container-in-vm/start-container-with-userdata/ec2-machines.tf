@@ -4,7 +4,7 @@ resource "aws_instance" "ContainerVM" {
   associate_public_ip_address = "true"
   subnet_id = "${data.aws_subnet.PUBLIC_SUBNET.id}"
   vpc_security_group_ids = ["${aws_security_group.SG.id}"]
-  key_name = "${var.KP}"
+  key_name = "${var.PROJECT_NAME}-kp"
   tags {
         Name = "${var.PROJECT_NAME}-ContainerVM"
   }
