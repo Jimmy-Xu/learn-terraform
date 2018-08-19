@@ -18,6 +18,7 @@ resource "aws_iam_role" "IAM_ROLE_FOR_SPOT_FLEET" {
 EOF
 }
 
+# add permisson to spot fleet
 resource "aws_iam_role_policy" "IAM_POLICY_FOR_SPOT_FLEET" {
     name = "${var.PROJECT_NAME}-iam_policy_for_spotfleet"
     role = "${aws_iam_role.IAM_ROLE_FOR_SPOT_FLEET.id}"

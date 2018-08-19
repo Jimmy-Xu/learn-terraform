@@ -18,6 +18,7 @@ resource "aws_iam_role" "IAM_ROLE_FOR_EC2_INSTANCE" {
 EOF
 }
 
+# add permission to ec2 instance
 resource "aws_iam_role_policy" "IAM_POLICY_FOR_EC2_INSTANCE" {
     name = "${var.PROJECT_NAME}-iam_policy_for_ec2_instance"
     role = "${aws_iam_role.IAM_ROLE_FOR_EC2_INSTANCE.id}"

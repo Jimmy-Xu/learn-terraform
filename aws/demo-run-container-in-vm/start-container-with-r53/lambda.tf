@@ -18,7 +18,7 @@ resource "aws_iam_role" "IAM_ROLE_FOR_LAMBDA" {
 EOF
 }
 
-
+# add permisson to lambda
 resource "aws_iam_role_policy" "IAM_POLICY_FOR_LAMBDA" {
     name = "${var.PROJECT_NAME}-iam_policy_for_lambda"
     role = "${aws_iam_role.IAM_ROLE_FOR_LAMBDA.id}"
@@ -45,6 +45,37 @@ resource "aws_iam_role_policy" "IAM_POLICY_FOR_LAMBDA" {
       "Resource": [
         "*"
       ]
+    },
+
+    {
+        "Effect": "Allow",
+        "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ],
+        "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "route53:ChangeResourceRecordSets"
+        ],
+        "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "route53:GetChange"
+        ],
+        "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "ec2:DescribeInstances"
+        ],
+        "Resource": "*"
     }
   ]
 }
@@ -83,15 +114,13 @@ resource "aws_cloudwatch_event_rule" "CLW_EVT_RULE" {
 }
 PATTERN
   depends_on = ["aws_lambda_function.UPDATE_R53_RECORD"]
-  schedule_expression = "rate(1 minute)"
+  //schedule_expression = "rate(1 minute)"
 }
 
 resource "aws_cloudwatch_event_target" "CLW_EVT_TGT" {
   target_id = "${var.PROJECT_NAME}-clw_event_target"
   rule = "${aws_cloudwatch_event_rule.CLW_EVT_RULE.name}"
   arn = "${aws_lambda_function.UPDATE_R53_RECORD.arn}"
-  input = <<INPUT
-INPUT
 }
 
 resource "aws_lambda_permission" "CLW_EVT_PERMISSION" {
