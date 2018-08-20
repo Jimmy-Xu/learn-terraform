@@ -22,15 +22,18 @@ data "aws_subnet" "PUBLIC_SUBNET" {
     vpc_id = "${data.aws_vpc.VPC.id}"
 }
 
-data "aws_instances" "SPOT_FLEET_INSTANCE_IPS" {
-  instance_tags {
-    Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
-  }
-  filter {
-    name   = "tag:Name"
-    values = ["${var.PROJECT_NAME}-SpotFleet-ContainerVM"]
-  }
-  depends_on = ["aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
+data "aws_route53_zone" "R53Zone" {
+  name         = "example.io."
+  private_zone = true
 }
 
-
+# data "aws_instances" "SPOT_FLEET_INSTANCE_IPS" {
+#   instance_tags {
+#     Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
+#   }
+#   filter {
+#     name   = "tag:Name"
+#     values = ["${var.PROJECT_NAME}-SpotFleet-ContainerVM"]
+#   }
+#   depends_on = ["aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
+# }

@@ -97,6 +97,7 @@ resource "aws_lambda_function" "UPDATE_R53_RECORD" {
     variables = {
       project_name = "${var.PROJECT_NAME}"
       dns_zone_name = "${var.DNS_ZONE_NAME}"
+      dns_zone_id = "${data.aws_route53_zone.R53Zone.id}"
     }
   }
 }
