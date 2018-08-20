@@ -355,3 +355,24 @@ update target_capacity from 1 to 0 is invalid, terraform apply return ok, but ta
 > EC2 instance: (2018-08-17 12:06:15 GMT)    terminated
 ``
 
+## What is CloudWatch Event for EC2 Instance State change
+
+```
+//running
+{
+  "account": "450256631915",
+  "detail": {
+    "instance-id": "i-0aa7fcf707cb726eb",
+    "state": "running"
+  },
+  "detail-type": "EC2 Instance State-change Notification",
+  "id": "2e2312f7-039e-921b-2329-769c070b6237",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:ec2:us-east-1:450256631915:instance/i-0aa7fcf707cb726eb"
+  ],
+  "source": "aws.ec2",
+  "time": "2018-08-20T02:00:30Z",
+  "version": "0"
+}
+```

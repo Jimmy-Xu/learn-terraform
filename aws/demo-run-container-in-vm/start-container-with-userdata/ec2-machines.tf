@@ -2,7 +2,7 @@ resource "aws_instance" "ContainerVM" {
   ami           = "${lookup(var.AMI, var.REGION)}"
   instance_type = "t2.nano"
   associate_public_ip_address = "true"
-  subnet_id = "${data.aws_subnet.PUBLIC_SUBNET.id}"
+  subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[0]}"
   vpc_security_group_ids = ["${aws_security_group.SG.id}"]
   key_name = "${var.PROJECT_NAME}-kp"
   tags {

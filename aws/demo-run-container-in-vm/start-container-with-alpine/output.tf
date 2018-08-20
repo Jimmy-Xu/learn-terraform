@@ -7,8 +7,8 @@ output "SUBNET_id" {
 }
 
 // new resources
-output "ContainerVM_ip" {
-  value = "${aws_instance.ContainerVM.*.public_ip}"
+output "AlpineVM_ip" {
+  value = "${aws_instance.AlpineVM.*.public_ip}"
 }
 output "SG_id" {
   value = "${aws_security_group.SG.id}"
