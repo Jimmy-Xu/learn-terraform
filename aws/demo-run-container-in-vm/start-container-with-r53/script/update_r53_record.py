@@ -24,19 +24,20 @@ def handler(event, context):
     instance = ec2.Instance(instance_id)
     instance_ip = instance.private_ip_address
     instance_name = search(instance.tags, 'Name')
+    service_name = search(instance.tags, 'ServiceName')
 
-    print("Processing: {0}".format(instance_id))
+    print("Processing: {0} Name: {1} ServiceName: {2}".format(instance_i, instance_name, service_name))
 
-    if not is_valid_hostname("{0}.atomic.aws.".format(instance_name)):
-        print("Invalid hostname! No changes made.")
-        return {'status': "Invalid hostname"}
+    if not is_valid_hostname("{0}.{1}.".format(service_name,dns_zone_name)):
+        print("Invalid service name! No changes made.")
+        return {'status': "Invalid service name"}
 
     dns_changes = {
         'Changes': [
             {
                 'Action': 'UPSERT',
                 'ResourceRecordSet': {
-                    'Name': "{0}.atomic.aws.".format(instance_name),
+                    'Name': "{0}.{1}.".format(service_name,dns_zone_name),
                     'Type': 'A',
                     'ResourceRecords': [
                         {
@@ -64,7 +65,7 @@ def search(dicts, search_for):
     for item in dicts:
         if search_for == item['Key']:
             return item['Value']
-    return None
+    return ""
 
 
 def is_valid_hostname(hostname):

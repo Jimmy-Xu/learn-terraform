@@ -7,6 +7,7 @@ test with Spot Fleet + CloudWatch + Lambda + R53
     - [required permission](#required-permission)
     - [install dependency](#install-dependency)
     - [build pr of terraform-provider-aws](#build-pr-of-terraform-provider-aws)
+- [required aws resource](#required-aws-resource)
 - [run with terraform](#run-with-terraform)
 - [get info](#get-info)
 - [remote access](#remote-access)
@@ -57,6 +58,22 @@ $ git checkout pr/4866
 $ make build
 ```
 
+# required aws resource
+
+```
++ aws_cloudwatch_event_rule
++ aws_cloudwatch_event_target
++ aws_cloudwatch_log_group
++ aws_iam_instance_profile
++ aws_iam_role
++ aws_iam_role_policy
++ aws_iam_role_policy
++ aws_lambda_function
++ aws_lambda_permission
++ aws_launch_template
++ aws_security_group
++ aws_spot_fleet_request
+```
 
 # run with terraform
 ```

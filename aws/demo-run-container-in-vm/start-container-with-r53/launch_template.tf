@@ -76,6 +76,7 @@ resource "aws_launch_template" "LAUNCH_TEMPLATE" {
       resource_type = "instance"
       tags {
         Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
+        ServiceName = "${var.SERVICE_NAME}"
       }
     }
     #the userdata script will be executed as root; if the uesrdata changed, the old instance will be replaced by a new one when apply

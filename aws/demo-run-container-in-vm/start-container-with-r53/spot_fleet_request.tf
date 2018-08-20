@@ -92,5 +92,9 @@ resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
         version = "${aws_launch_template.LAUNCH_TEMPLATE.latest_version}"
       }
     }
-    depends_on = ["aws_launch_template.LAUNCH_TEMPLATE","aws_lambda_function.UPDATE_R53_RECORD"]
+    depends_on = [
+        "aws_lambda_function.UPDATE_R53_RECORD",
+        "aws_cloudwatch_event_target.CLW_EVT_TGT",
+        "aws_cloudwatch_log_group.CLW_LOG_GROUP"
+    ]
 }

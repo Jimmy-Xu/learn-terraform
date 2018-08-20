@@ -52,3 +52,7 @@ variable "AMI_ECS_OPTIMIZED" {
   }
   description = "Amazon ECS-Optimized AMI - (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)"
 }
+
+variable "SERVICE_NAME" {
+  default = "nginx"
+}
