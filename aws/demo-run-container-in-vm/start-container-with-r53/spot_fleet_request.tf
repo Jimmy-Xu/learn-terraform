@@ -97,7 +97,7 @@ EOF
 resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
     iam_fleet_role = "${aws_iam_role.IAM_ROLE_FOR_SPOT_FLEET.arn}"
     spot_price = "0.0035"
-    target_capacity = 0
+    target_capacity = 1
     on_demand_target_capacity = 0
     valid_until = "2019-08-16T14:53:08Z"
     terminate_instances_with_expiration = true
@@ -178,9 +178,10 @@ resource "aws_appautoscaling_policy" "SPOT_FLEETR_EQUEST_AUTO_SCALING_POLICY_STE
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity" # ChangeInCapacity, PercentChangeInCapacity, ExactCapacity
     metric_aggregation_type = "Average"          # Maximum, Minimum, Average
+    cooldown                = 300
     step_adjustment {
         metric_interval_lower_bound = 0
-        scaling_adjustment = 1
+        scaling_adjustment          = 1
     }
   }
   depends_on = ["aws_appautoscaling_target.SPOT_FLEETR_EQUEST_AUTO_SCALING_TARGET","aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
@@ -195,7 +196,7 @@ resource "aws_cloudwatch_metric_alarm" "CLW_METRIC_ALARM_CPU_LOW" {
   metric_name         = "CPUUtilization"
   namespace           = "AWS/EC2Spot"
   period              = 60
-  statistic           = "Average"
+  statistic           = "Average" # SampleCount, Average, Sum, Minimum, Maximum
   threshold           = "5"
   treat_missing_data  = "missing"
 
@@ -216,9 +217,10 @@ resource "aws_appautoscaling_policy" "SPOT_FLEETR_EQUEST_AUTO_SCALING_POLICY_STE
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity" # ChangeInCapacity, PercentChangeInCapacity, ExactCapacity
     metric_aggregation_type = "Average"          # Maximum, Minimum, Average
+    cooldown                = 300
     step_adjustment {
         metric_interval_upper_bound = 0
-        scaling_adjustment = -1
+        scaling_adjustment          = -1
     }
   }
   depends_on = ["aws_appautoscaling_target.SPOT_FLEETR_EQUEST_AUTO_SCALING_TARGET","aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
