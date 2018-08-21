@@ -9,6 +9,9 @@ output "SUBNET_id" {
 output "R53Zone_id" {
   value = "${data.aws_route53_zone.R53Zone.id}"
 }
+output "GLOBAL_SG_id" {
+  value = "${data.aws_security_group.GLOBAL_SG.id}"
+}
 
 // new resources
 output "SG_id" {

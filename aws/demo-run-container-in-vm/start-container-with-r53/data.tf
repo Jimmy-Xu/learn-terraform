@@ -22,6 +22,11 @@ data "aws_subnet" "PUBLIC_SUBNET" {
     vpc_id = "${data.aws_vpc.VPC.id}"
 }
 
+data "aws_security_group" "GLOBAL_SG" {
+    name = "${var.PROJECT_NAME}-SG-global"
+    vpc_id = "${data.aws_vpc.VPC.id}"
+}
+
 data "aws_route53_zone" "R53Zone" {
   name         = "example.io."
   private_zone = true

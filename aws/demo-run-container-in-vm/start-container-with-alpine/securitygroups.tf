@@ -5,6 +5,13 @@ resource "aws_security_group" "SG" {
   }
   vpc_id = "${data.aws_vpc.VPC.id}"
 
+  #allow global sg
+  ingress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        security_groups = ["${data.aws_security_group.GLOBAL_SG.id}"]
+  }
   #sshd port
   ingress {
     from_port   = "22"

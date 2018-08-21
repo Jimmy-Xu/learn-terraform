@@ -22,6 +22,11 @@ data "aws_subnet" "PUBLIC_SUBNET" {
     vpc_id = "${data.aws_vpc.VPC.id}"
 }
 
+data "aws_security_group" "GLOBAL_SG" {
+    name = "${var.PROJECT_NAME}-SG-global"
+    vpc_id = "${data.aws_vpc.VPC.id}"
+}
+
 data "aws_iam_role" "IAM_ROLE" {
     name = "aws-ec2-spot-fleet-tagging-role"
 }

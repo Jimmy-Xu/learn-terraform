@@ -6,6 +6,13 @@ resource "aws_security_group" "SG" {
   description = "allow http, ssh and docker"
   vpc_id = "${data.aws_vpc.VPC.id}"
 
+  #allow global sg
+  ingress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        security_groups = ["${data.aws_security_group.GLOBAL_SG.id}"]
+  }
   #nginx port
   ingress {
         from_port = 80

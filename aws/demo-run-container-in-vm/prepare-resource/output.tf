@@ -18,6 +18,10 @@ output "az" {
   value = "${data.aws_availability_zones.AZ_LIST.names}"
 }
 
+output "global_sg" {
+  value = "${aws_security_group.SG.id}"
+}
+
 output "igw_id" {
   value = "${aws_internet_gateway.IGW.id}"
 }
