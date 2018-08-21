@@ -31,11 +31,23 @@ test with Spot Fleet + CloudWatch + Lambda + R53
 
 ## required permission
 ```
-AmazonEC2FullAccess
-AWSLambdaFullAccess
-AmazonVPCFullAccess
-AmazonRoute53FullAccess
-IAMFullAccess
+- AWS policy
+    - AmazonEC2FullAccess
+    - AmazonVPCFullAccess
+    - AWSLambdaFullAccess
+    - AmazonRoute53FullAccess
+    - IAMFullAccess
+- inline policy
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "application-autoscaling:*",
+            "Resource": "*"
+        }
+    ]
+}
 ```
 
 ## install dependency
@@ -61,18 +73,24 @@ $ make build
 # required aws resource
 
 ```
-+ aws_cloudwatch_event_rule
-+ aws_cloudwatch_event_target
-+ aws_cloudwatch_log_group
-+ aws_iam_instance_profile
-+ aws_iam_role
-+ aws_iam_role_policy
-+ aws_iam_role_policy
-+ aws_lambda_function
-+ aws_lambda_permission
-+ aws_launch_template
-+ aws_security_group
-+ aws_spot_fleet_request
+1 aws_appautoscaling_policy
+2 aws_appautoscaling_target
+
+3 aws_cloudwatch_event_rule
+4 aws_cloudwatch_event_target
+5 aws_cloudwatch_log_group
+6 aws_cloudwatch_metric_alarm
+
+7 aws_iam_instance_profile
+8 aws_iam_role
+9 aws_iam_role_policy
+
+10 aws_lambda_function
+11 aws_lambda_permission
+
+12 aws_security_group
+13 aws_launch_template
+14 aws_spot_fleet_request
 ```
 
 # run with terraform
