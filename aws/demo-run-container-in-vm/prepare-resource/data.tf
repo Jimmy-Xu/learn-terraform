@@ -1,3 +1,8 @@
+# Declare the data source
+data "aws_availability_zones" "AZ_LIST" {
+  state = "available"
+}
+
 data "aws_subnet_ids" "ALL_SUBNET" {
   tags {
     Name = "${var.PROJECT_NAME}-PUBLIC_SUBNET"

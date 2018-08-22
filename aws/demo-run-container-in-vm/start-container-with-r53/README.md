@@ -410,8 +410,9 @@ allocation_strategy = "diversified"
 
 ## about spot fleet autoscaling
 
-- autoscaling will update the target_capacity of fleet spot
+- autoscaling will update the target_capacity of spot fleet
 - only target_capacity can be updated, on_demand_target_capacity can not be updated
 - autoscaling only affect spot instance
+- TargetCapacity cannot be less than OnDemandTargetCapacity
 
 ![](images/spot-fleet-request-scale-history.jpg)

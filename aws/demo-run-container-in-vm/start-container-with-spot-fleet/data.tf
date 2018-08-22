@@ -1,6 +1,11 @@
 ################################
 # existed resource
 ################################
+
+data "aws_availability_zones" "AZ_LIST" {
+  state = "available"
+}
+
 data "aws_vpc" "VPC" {
   filter {
     name = "tag:Name"

@@ -1,5 +1,3 @@
-# Declare the data source
-data "aws_availability_zones" "AZ_LIST" {}
 
 /* EXTERNAL NETWORG , IG, ROUTE TABLE */
 resource "aws_internet_gateway" "IGW" {
