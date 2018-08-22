@@ -63,12 +63,20 @@ resource "aws_launch_template" "LAUNCH_TEMPLATE" {
     iam_instance_profile {
        arn = "${aws_iam_instance_profile.IAM_INSTANCE_PROFILE.arn}"
     }
-    network_interfaces {
-      associate_public_ip_address = true
-      delete_on_termination = true
-      subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[0]}"
-      security_groups = ["${aws_security_group.SG.id}"]
-    }
+    # network_interfaces {
+    #     device_index = 0
+    #     associate_public_ip_address = true
+    #     delete_on_termination = true
+    #     subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[0]}"
+    #     security_groups = ["${data.aws_security_group.GLOBAL_SG.id}","${aws_security_group.SG.id}"]
+    # }
+    # network_interfaces {
+    #     device_index = 1
+    #     associate_public_ip_address = true
+    #     delete_on_termination = true
+    #     subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[1]}"
+    #     security_groups = ["${data.aws_security_group.GLOBAL_SG.id}","${aws_security_group.SG.id}"]
+    # }
     tags {
           Name = "${var.PROJECT_NAME}-LC"
     }

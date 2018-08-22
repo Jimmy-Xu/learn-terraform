@@ -95,19 +95,65 @@ EOF
 }
 
 resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
+    fleet_type = "maintain" # maintain|request
     iam_fleet_role = "${aws_iam_role.IAM_ROLE_FOR_SPOT_FLEET.arn}"
     spot_price = "0.0035"
-    target_capacity = 1
-    on_demand_target_capacity = 0
+    target_capacity = 2
+    allocation_strategy = "diversified" #Spot 实例分布在所有池中
+    on_demand_target_capacity = 1  # "on_demand_target_capacity": conflicts with launch_specification
     valid_until = "2019-08-16T14:53:08Z"
     terminate_instances_with_expiration = true
     wait_for_fulfillment = true #(Optional; Default: false) If set, Terraform will wait for the Spot Request to be fulfilled, and will throw an error if the timeout of 10m is reached.
+
     launch_template_configs {
       launch_template_specification {
         name = "${aws_launch_template.LAUNCH_TEMPLATE.name}"
         version = "${aws_launch_template.LAUNCH_TEMPLATE.latest_version}"
       }
+      overrides {
+        #spot_price = "0.0035"
+        #instance_type = "t2.micro"
+        subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[0]}"
+      }
+      overrides {
+        #spot_price = "0.0035"
+        #instance_type = "t2.micro"
+        subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[1]}"
+      }
     }
+
+    # # pool 1
+    # launch_specification {
+    #     instance_type               = "t2.micro"
+    #     ami                         = "${lookup(var.AMI_ECS_OPTIMIZED, var.REGION)}"
+    #     key_name                    = "${var.PROJECT_NAME}-kp"        
+    #     iam_instance_profile_arn    = "${aws_iam_instance_profile.IAM_INSTANCE_PROFILE.arn}"
+    #     subnet_id                   = "${data.aws_subnet_ids.ALL_SUBNET.ids[0]}"
+    #     weighted_capacity           = 50
+    #     associate_public_ip_address = true
+    #     security_groups = ["${data.aws_security_group.GLOBAL_SG.id}","${aws_security_group.SG.id}"]
+    #     tags {
+    #         Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
+    #             ServiceName = "${var.SERVICE_NAME}"
+    #     }
+    #     user_data = "${file("script/user_data.sh")}"
+    # }
+    # # pool 2
+    # launch_specification {
+    #     instance_type               = "t2.micro"
+    #     ami                         = "${lookup(var.AMI_ECS_OPTIMIZED, var.REGION)}"
+    #     key_name                    = "${var.PROJECT_NAME}-kp"        
+    #     iam_instance_profile_arn    = "${aws_iam_instance_profile.IAM_INSTANCE_PROFILE.arn}"
+    #     subnet_id                   = "${data.aws_subnet_ids.ALL_SUBNET.ids[1]}"
+    #     weighted_capacity           = 50
+    #     associate_public_ip_address = true
+    #     security_groups = ["${data.aws_security_group.GLOBAL_SG.id}","${aws_security_group.SG.id}"]
+    #     tags {
+    #         Name = "${var.PROJECT_NAME}-SpotFleet-ContainerVM"
+    #             ServiceName = "${var.SERVICE_NAME}"
+    #     }
+    #     user_data = "${file("script/user_data.sh")}"
+    # }
     depends_on = [
         "aws_iam_role_policy.IAM_POLICY_FOR_SPOT_FLEET",
         "aws_lambda_function.UPDATE_R53_RECORD",
@@ -122,7 +168,7 @@ resource "aws_appautoscaling_target" "SPOT_FLEETR_EQUEST_AUTO_SCALING_TARGET" {
   scalable_dimension = "ec2:spot-fleet-request:TargetCapacity"
   resource_id = "spot-fleet-request/${aws_spot_fleet_request.SPOT_FLEET_REQUEST.id}"
   min_capacity = "0"
-  max_capacity = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.target_capacity}"
+  max_capacity = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.target_capacity+1}"
 }
 
 ############################################################################

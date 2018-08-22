@@ -34,6 +34,10 @@ output "SPOT_FLEET_REQUEST_TARGET_CAPACITY" {
   value = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.target_capacity}"
 }
 
+output "SPOT_FLEET_REQUEST_ON_DEMAND_CAPACITY" {
+  value = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.on_demand_target_capacity}"
+}
+
 # ###
 # output "SPOT_INSTANCE_PRIVATE_IPS" {
 #   value = "${data.aws_instances.SPOT_FLEET_INSTANCE_IPS.private_ips}"

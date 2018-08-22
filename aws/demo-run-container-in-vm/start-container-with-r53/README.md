@@ -24,6 +24,9 @@ test with Spot Fleet + CloudWatch + Lambda + R53
 - [FAQ](#faq)
     - [about update target_capacity for spot_fleet_request](#about-update-targetcapacity-for-spotfleetrequest)
     - [time duration after set target_capacity from 1 to 0](#time-duration-after-set-targetcapacity-from-1-to-0)
+    - [What is CloudWatch Event for EC2 Instance State change](#what-is-cloudwatch-event-for-ec2-instance-state-change)
+    - [about spot fleet allocation](#about-spot-fleet-allocation)
+    - [about spot fleet autoscaling](#about-spot-fleet-autoscaling)
 
 <!-- /TOC -->
 
@@ -52,7 +55,10 @@ test with Spot Fleet + CloudWatch + Lambda + R53
 
 ## install dependency
 
-> for write lambda
+> download terraform from https://www.terraform.io/downloads.html
+
+
+> for write aws lambda function
 ```
 $ sudo pip install botocore==1.10.67 boto3==1.7.67 awscli=1.15.68
 ```
@@ -371,7 +377,7 @@ update target_capacity from 1 to 0 is invalid, terraform apply return ok, but ta
 > Spot Fleet Request: 8/17/2018, 12:04:15 PM termination_notified
 
 > EC2 instance: (2018-08-17 12:06:15 GMT)    terminated
-``
+```
 
 ## What is CloudWatch Event for EC2 Instance State change
 
@@ -394,3 +400,18 @@ update target_capacity from 1 to 0 is invalid, terraform apply return ok, but ta
   "version": "0"
 }
 ```
+
+## about spot fleet allocation
+
+**aws_spot_fleet_request**:  
+allocation_strategy = "diversified"
+
+![](images/allocation_strategy-diversified.jpg)
+
+## about spot fleet autoscaling
+
+- autoscaling will update the target_capacity of fleet spot
+- only target_capacity can be updated, on_demand_target_capacity can not be updated
+- autoscaling only affect spot instance
+
+![](images/spot-fleet-request-scale-history.jpg)
