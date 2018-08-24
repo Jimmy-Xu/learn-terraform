@@ -100,8 +100,8 @@ resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
     spot_price          = "0.0035"
     allocation_strategy = "diversified"  # Spot 实例分布在所有池中
     valid_until         = "2019-08-16T14:53:08Z"
-    target_capacity           = 2        # TargetCapacity cannot be less than OnDemandTargetCapacity
-    on_demand_target_capacity = 1        # "on_demand_target_capacity": conflicts with launch_specification
+    target_capacity           = 0        # TargetCapacity cannot be less than OnDemandTargetCapacity
+    on_demand_target_capacity = 0        # "on_demand_target_capacity": conflicts with launch_specification
     terminate_instances_with_expiration = true
     wait_for_fulfillment = true          #(Optional; Default: false) If set, Terraform will wait for the Spot Request to be fulfilled, and will throw an error if the timeout of 10m is reached.
 
