@@ -2,9 +2,6 @@
 # existed resource
 ################################
 
-data "aws_availability_zones" "AZ_LIST" {
-  state = "available"
-}
 data "aws_vpc" "VPC" {
   filter {
     name = "tag:Name"
@@ -15,7 +12,7 @@ data "aws_vpc" "VPC" {
 # get all subnets
 data "aws_subnet_ids" "ALL_SUBNET" {
   tags {
-    Name = "${var.PROJECT_NAME}-PUBLIC_SUBNET"
+    Role = "${var.PROJECT_NAME}-PUBLIC_SUBNET"
   }
   vpc_id = "${data.aws_vpc.VPC.id}"
 }

@@ -110,6 +110,8 @@ resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
         name = "${aws_launch_template.LAUNCH_TEMPLATE.name}"
         version = "${aws_launch_template.LAUNCH_TEMPLATE.latest_version}"
       }
+
+    # If you want to specify multiple values for subnet_id, then separate launch configuration or template blocks should be used
       # pool1
       overrides {
         #spot_price = "0.0035"
@@ -118,11 +120,14 @@ resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
       }
       # pool2
       overrides {
-        #spot_price = "0.0035"
-        #instance_type = "t2.micro"
         subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[1]}"
       }
+      overrides {
+        subnet_id = "${data.aws_subnet_ids.ALL_SUBNET.ids[2]}"
+      }
     }
+    
+    target_group_arns = ["${aws_lb_target_group.ALB_TARGET_GROUP.arn}"]
 
     # # pool 1
     # launch_specification {

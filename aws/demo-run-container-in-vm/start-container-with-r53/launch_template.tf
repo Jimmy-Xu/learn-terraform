@@ -87,6 +87,7 @@ resource "aws_launch_template" "LAUNCH_TEMPLATE" {
         ServiceName = "${var.SERVICE_NAME}"
       }
     }
+    vpc_security_group_ids = ["${data.aws_security_group.GLOBAL_SG.id}","${aws_security_group.SG.id}"]
     #the userdata script will be executed as root; if the uesrdata changed, the old instance will be replaced by a new one when apply
     #user_data(base64)
     #use iam_instance_profile to execute aws cli in user data without credential

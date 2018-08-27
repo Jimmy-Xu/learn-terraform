@@ -9,9 +9,9 @@ resource "aws_elb" "ELB" {
     # }
     listener {
         lb_port = 80
-        lb_protocol = "http"
+        lb_protocol = "http"       # HTTP, HTTPS, TCP, or SSL
         instance_port = 80
-        instance_protocol = "http"
+        instance_protocol = "http" # HTTP, HTTPS, TCP, or SSL
     }
     health_check {
         healthy_threshold = 2

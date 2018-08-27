@@ -24,18 +24,22 @@ output "LT_id" {
 
 output "SFR_id" {
   value = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.id}"
+  depends_on = ["aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
 }
 
 output "SPOT_FLEET_REQUEST_STATUS" {
   value = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.spot_request_state}"
+  depends_on = ["aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
 }
 
 output "SPOT_FLEET_REQUEST_TARGET_CAPACITY" {
   value = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.target_capacity}"
+  depends_on = ["aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
 }
 
 output "SPOT_FLEET_REQUEST_ON_DEMAND_CAPACITY" {
   value = "${aws_spot_fleet_request.SPOT_FLEET_REQUEST.on_demand_target_capacity}"
+  depends_on = ["aws_spot_fleet_request.SPOT_FLEET_REQUEST"]
 }
 
 # ###
