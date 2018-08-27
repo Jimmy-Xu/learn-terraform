@@ -7,6 +7,7 @@ data "aws_vpc" "VPC" {
     name = "tag:Name"
     values = ["${var.PROJECT_NAME}-VPC"]
   }
+  default = false
 }
 
 # get all subnets

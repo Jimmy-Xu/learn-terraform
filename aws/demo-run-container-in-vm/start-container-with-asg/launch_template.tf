@@ -56,6 +56,9 @@ resource "aws_iam_instance_profile" "IAM_INSTANCE_PROFILE" {
   name = "${var.PROJECT_NAME}-iam_instance_profile"
   role = "${aws_iam_role.IAM_ROLE_FOR_EC2_INSTANCE.name}"
 }
+
+## issue： if update  launch_template, valid_until will be changed, cause https://github.com/terraform-providers/terraform-provider-aws/issues/5455
+### "Error creating AutoScaling Group: InvalidQueryParameter: Incompatible launch template: Auto Scaling only supports the 'one-time' Spot instance type with no duration."
 resource "aws_launch_template" "LAUNCH_TEMPLATE_SPOT" {
     image_id           = "${lookup(var.AMI_ECS_OPTIMIZED, var.REGION)}"
     instance_type      = "t2.micro"
@@ -65,10 +68,10 @@ resource "aws_launch_template" "LAUNCH_TEMPLATE_SPOT" {
     }
     instance_market_options {
         market_type = "spot"                  #  The market type. Can be "spot"
-        spot_options {
-            # should be "one-time" for spot instance, otherwise error will occur: 
-            #"Error creating AutoScaling Group: InvalidQueryParameter: Incompatible launch template: Auto Scaling only supports the 'one-time' Spot instance type with no duration."
+        spot_options {        
             spot_instance_type = "one-time"
+            max_price = "0.0035"
+            instance_interruption_behavior = "terminate"
         }
     }
 
@@ -83,6 +86,7 @@ resource "aws_launch_template" "LAUNCH_TEMPLATE_SPOT" {
         ServiceName = "${var.SERVICE_NAME}"
       }
     }
+    vpc_security_group_ids = ["${data.aws_security_group.GLOBAL_SG.id}","${aws_security_group.SG.id}"]
     #the userdata script will be executed as root; if the uesrdata changed, the old instance will be replaced by a new one when apply
     #user_data(base64)
     #use iam_instance_profile to execute aws cli in user data without credential
@@ -107,6 +111,7 @@ resource "aws_launch_template" "LAUNCH_TEMPLATE_ON_DEMAND" {
         ServiceName = "${var.SERVICE_NAME}"
       }
     }
+    vpc_security_group_ids = ["${data.aws_security_group.GLOBAL_SG.id}","${aws_security_group.SG.id}"]
     #the userdata script will be executed as root; if the uesrdata changed, the old instance will be replaced by a new one when apply
     #user_data(base64)
     #use iam_instance_profile to execute aws cli in user data without credential
