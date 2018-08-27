@@ -4,10 +4,11 @@ resource "aws_subnet" "PUBLIC_SUBNET" {
     count             = "${length(split(",", lookup(var.AZS, var.REGION)))}"
     cidr_block        = "${cidrsubnet(var.VPC_FULLC_IDR, 4, count.index)}"
     availability_zone = "${element(split(",", lookup(var.AZS, var.REGION)), count.index)}"
-    #map_public_ip_on_launch = false
+    map_public_ip_on_launch = true # Specify true to indicate that instances launched into the subnet should be assigned a public IP address. Default is false.
 
     tags {
         "Name" = "${var.PROJECT_NAME}-public-${element(split(",", lookup(var.AZS, var.REGION)), count.index)}"
+        "Role" = "${var.PROJECT_NAME}-PUBLIC_SUBNET"
     }
 }
 
