@@ -9,6 +9,17 @@ variable "REGION" {
   default = "us-east-1"
 }
 
+variable "AZS" {
+  default = {
+    "us-east-1" = "us-east-1a,us-east-1b,us-east-1c,us-east-1d,us-east-1e,us-east-1f"
+    "us-west-1" = "us-west-1a,us-west-1c"
+    "ap-northeast-1" = "ap-northeast-1a,ap-northeast-1c,ap-northeast-1d"
+    "ap-southeast-1" = "ap-southeast-1a,ap-southeast-1b,ap-southeast-1c"
+    # use "aws ec2 describe-availability-zones --region us-east-1 --output text"
+    # to figure out the name of the AZs on every region
+  }
+}
+
 /*
 variable "aws_access_key" {
   default = "xxxxx"
