@@ -33,3 +33,7 @@ output "rtb_id" {
 output "r53_zone_id" {
   value = "${aws_route53_zone.R53Zone.zone_id}"
 }
+
+output "s3_bucket" {
+  value = "${aws_s3_bucket.S3_BUCKET.bucket}"
+}

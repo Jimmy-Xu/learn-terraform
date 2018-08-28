@@ -20,8 +20,6 @@ resource "aws_autoscaling_group" "ASG_ON_DEMAND" {
     }
   ]
 
-  health_check_type="ELB"
-  load_balancers= ["${aws_elb.ELB.id}"]
 }
 
 resource "aws_autoscaling_group" "ASG_SPOT" {

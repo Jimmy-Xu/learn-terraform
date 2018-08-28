@@ -10,6 +10,7 @@ Generate keypair via run `ssh-keygen`, put the public key in data/public_key.pem
 <!-- TOC -->
 
 - [Usage](#usage)
+  - [required permission](#required-permission)
   - [init](#init)
   - [plan](#plan)
   - [apply](#apply)
@@ -17,6 +18,29 @@ Generate keypair via run `ssh-keygen`, put the public key in data/public_key.pem
 <!-- /TOC -->
 
 # Usage
+
+## required permission
+```
+- AWS policy
+    - AmazonEC2FullAccess
+    - AmazonVPCFullAccess
+    - AWSLambdaFullAccess
+    - AmazonRoute53FullAccess
+    - IAMFullAccess
+    - AWSCertificateManagerFullAccess
+    - AmazonS3FullAccess
+- inline policy
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "application-autoscaling:*",
+            "Resource": "*"
+        }
+    ]
+}
+```
 
 ## init
 
