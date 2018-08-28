@@ -40,6 +40,7 @@ test with Spot Fleet + CloudWatch + Lambda + R53
     - AWSLambdaFullAccess
     - AmazonRoute53FullAccess
     - IAMFullAccess
+    - AWSCertificateManagerFullAccess
 - inline policy
 {
     "Version": "2012-10-17",

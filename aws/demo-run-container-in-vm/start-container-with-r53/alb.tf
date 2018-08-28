@@ -20,8 +20,8 @@ resource "aws_lb" "ALB" {
   }
 }
 
-resource "aws_lb_target_group" "ALB_TARGET_GROUP" {
-  name     = "${var.PROJECT_NAME}-alb-target-group"  # Target group name can only contain characters that are alphanumeric characters or hyphens(-)
+resource "aws_lb_target_group" "ALB_TARGET_GROUP_80" {
+  name     = "${var.PROJECT_NAME}-alb-target-group-80"  # Target group name can only contain characters that are alphanumeric characters or hyphens(-)
   port     = 80
   protocol = "HTTP"
   vpc_id   = "${data.aws_vpc.VPC.id}"
@@ -35,17 +35,26 @@ resource "aws_lb_listener" "ALB_LISTENER" {
   //default route rule
   default_action {
     type             = "forward"
-    target_group_arn = "${aws_lb_target_group.ALB_TARGET_GROUP.arn}"
+    target_group_arn = "${aws_lb_target_group.ALB_TARGET_GROUP_80.arn}"
   }
-
-  ## redirect example:
-  # default_action {
-  #   type = "redirect"
-  #   redirect {
-  #     port = "443"
-  #     protocol = "HTTPS"
-  #     status_code = "HTTP_301"
-  #   }
-  # }
-
 }
+
+# resource "aws_lb_listener" "ALB_LISTENER_443" {
+#   load_balancer_arn = "${aws_lb.ALB.arn}"
+#   port              = "443"
+#   protocol          = "HTTPS" # HTTP | HTTPS
+
+#   ssl_policy        = "ELBSecurityPolicy-2016-08"
+#   certificate_arn   = "${aws_acm_certificate.ACM_CERT.arn}"
+
+#   default_action {
+#     type = "redirect"
+#     redirect {
+#       port = "80"
+#       protocol = "HTTP"
+#       status_code = "HTTP_301"
+#     }
+#   }
+
+#   depends_on = ["aws_acm_certificate_validation.ACM_CERT_VALIDATE"]
+# }

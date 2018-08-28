@@ -127,7 +127,7 @@ resource "aws_spot_fleet_request" "SPOT_FLEET_REQUEST" {
       }
     }
     
-    target_group_arns = ["${aws_lb_target_group.ALB_TARGET_GROUP.arn}"]
+    target_group_arns = ["${aws_lb_target_group.ALB_TARGET_GROUP_80.arn}"]
 
     # # pool 1
     # launch_specification {
