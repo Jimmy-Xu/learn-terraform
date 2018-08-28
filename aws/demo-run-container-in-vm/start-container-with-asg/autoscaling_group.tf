@@ -3,23 +3,22 @@ resource "aws_autoscaling_group" "ASG_ON_DEMAND" {
   vpc_zone_identifier = ["${data.aws_subnet_ids.ALL_SUBNET.ids}"]
 
   desired_capacity = 0
-  min_size = 0
-  max_size = 0
-  
+  min_size         = 0
+  max_size         = 0
+
   launch_template = {
-    id = "${aws_launch_template.LAUNCH_TEMPLATE_ON_DEMAND.id}"
+    id      = "${aws_launch_template.LAUNCH_TEMPLATE_ON_DEMAND.id}"
     version = "$$Latest"
   }
 
   # add tag to asg: https://github.com/hashicorp/terraform/issues/15226
   tag = [
     {
-      "key" = "Name"
-      "value" = "${var.PROJECT_NAME}-ASG_ON_DEMAND"
+      "key"                 = "Name"
+      "value"               = "${var.PROJECT_NAME}-ASG_ON_DEMAND"
       "propagate_at_launch" = true
-    }
+    },
   ]
-
 }
 
 resource "aws_autoscaling_group" "ASG_SPOT" {
@@ -27,20 +26,19 @@ resource "aws_autoscaling_group" "ASG_SPOT" {
   vpc_zone_identifier = ["${data.aws_subnet_ids.ALL_SUBNET.ids}"]
 
   desired_capacity = 0
-  min_size = 0
-  max_size = 0
+  min_size         = 0
+  max_size         = 0
 
   launch_template = {
-    id = "${aws_launch_template.LAUNCH_TEMPLATE_SPOT.id}"
+    id      = "${aws_launch_template.LAUNCH_TEMPLATE_SPOT.id}"
     version = "$$Latest"
   }
 
   tag = [
     {
-      "key" = "Name"
-      "value" = "${var.PROJECT_NAME}-ASG_SPOT"
+      "key"                 = "Name"
+      "value"               = "${var.PROJECT_NAME}-ASG_SPOT"
       "propagate_at_launch" = true
-    }
+    },
   ]
-
 }
